@@ -4,24 +4,22 @@ namespace Web.Controllers;
 [Route("[controller]")]
 public class TestController : ControllerBase
 {
-    private readonly ILogger<TestController> _logger;
-    private readonly IApplicationDbContext _dbContext;
+    private readonly IMediator _mediator;
 
-    public TestController(ILogger<TestController> logger, IApplicationDbContext dbContext)
+    public TestController(IMediator mediator)
     {
-        _logger = logger;
-        _dbContext = dbContext;
+        _mediator = mediator;
     }
 
     [HttpGet("api-connection")]
-    public async Task<ActionResult<string>> TestApiConnection()
-    {
-        return Ok("Connected");
-    }
+    public async Task<Result<string>> TestApiConnection()
+        => new("Connected");
 
     [HttpGet("db-connection")]
-    public async Task<ActionResult<List<TestEntity>>> TestDbConnection(CancellationToken cancellationToken)
-    {
-        return Ok(await _dbContext.TestEntities.ToListAsync(cancellationToken));
-    }
+    public async Task<Result<IReadOnlyCollection<string>>> TestDbConnection(CancellationToken cancellationToken)
+        => new(await _mediator.Send(new TestQuery(), cancellationToken));
+
+    [HttpGet("api-exception")]
+    public async Task<Result<string>> TestApiException()
+        => throw new Exception("Exception occured");
 }

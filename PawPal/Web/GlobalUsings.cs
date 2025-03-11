@@ -1,5 +1,9 @@
-﻿global using Microsoft.AspNetCore.Mvc;
+﻿global using Application;
+global using Application.Modules.Test;
 global using Infrastructure;
-global using Application.Interfaces;
-global using Domain.Entities;
-global using Microsoft.EntityFrameworkCore;
+global using MediatR;
+global using Microsoft.AspNetCore.Mvc;
+global using System.Net;
+global using System.Text.Json;
+global using Web.Middleware;
+global using Web.Models;
