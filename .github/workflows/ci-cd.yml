@@ -16,14 +16,21 @@ jobs:
       with:
         dotnet-version: 8.0.x
         
+    - name: List directory content to debug
+      run: |
+        echo "Repository root content:"
+        ls -la
+        echo "PawPal directory content:"
+        ls -la PawPal || echo "PawPal directory not found"
+        
     - name: Restore dependencies
-      run: dotnet restore PawPal.sln
+      run: dotnet restore PawPal/PawPal.sln
       
     - name: Build
-      run: dotnet build PawPal.sln --configuration Release --no-restore
+      run: dotnet build PawPal/PawPal.sln --configuration Release --no-restore
       
     - name: Test
-      run: dotnet test PawPal.sln --configuration Release --no-build
+      run: dotnet test PawPal/PawPal.sln --configuration Release --no-build
       
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
