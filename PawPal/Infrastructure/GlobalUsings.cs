@@ -1,8 +1,10 @@
-﻿global using Microsoft.EntityFrameworkCore;
-global using System.Reflection;
+﻿global using Application.Interfaces;
+global using Domain.Common;
+global using Domain.Entities;
 global using Infrastructure.Data;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Diagnostics;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
-global using Application.Interfaces;
-global using Domain.Entities;
-global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using System.Reflection;
