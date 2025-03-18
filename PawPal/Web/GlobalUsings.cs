@@ -3,6 +3,7 @@ global using Application.Modules.Test;
 global using Infrastructure;
 global using MediatR;
 global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.OpenApi.Models;
 global using System.Net;
 global using System.Text.Json;
 global using Web.Middleware;
