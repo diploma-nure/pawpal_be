@@ -1,29 +1,14 @@
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Version = "v1",
-        Title = "PawPal API",
-        Description = "API for PawPal web service",
-        Contact = new OpenApiContact
-        {
-            Name = "GitHub Repository",
-            Url = new Uri("https://github.com/diploma-nure/pawpal_be")
-        },
-    });
-});
-
-builder.Services.AddInfrastructureServices(builder.Configuration);
-builder.Services.AddApplicationServices(builder.Configuration);
-
-builder.Services.AddRouting(options => options.LowercaseUrls = true);
+builder.Services.ConfigureControllers();
+builder.Services.ConfigureSwagger();
+builder.Services.ConfigureOptions(builder.Configuration);
+builder.Services.ConfigureServices(builder.Configuration);
+builder.Services.ConfigureCors();
 
 var app = builder.Build();
+
+app.UseCors("AllowAll");
 
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -34,8 +19,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseMiddleware<UnhandledExceptionMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<AuthMiddleware>();
 
-app.MapGet("/health", () => "Healthy!");
+app.MapGet("/api/health", () => "Healthy!");
 
 app.Run();
