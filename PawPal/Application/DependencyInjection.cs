@@ -9,6 +9,8 @@ public static class DependencyInjection
             config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
 
+        services.AddScoped<ITokenService, TokenService>();
+
         return services;
     }
 }
