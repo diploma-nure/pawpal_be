@@ -4,18 +4,18 @@ public class Result<TData>
 {
     public TData? Data { get; set; }
 
-    public string? Error { get; set; }
+    public string? Message { get; set; }
 
-    public string? ErrorDescription { get; set; }
+    public List<string>? Errors { get; set; }
 
     public Result(TData data)
     {
         Data = data;
     }
 
-    public Result(string error, string? errorDescription)
+    public Result(string message, List<string>? errors)
     {
-        Error = error;
-        ErrorDescription = errorDescription;
+        Message = message;
+        Errors = errors;
     }
 }

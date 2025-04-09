@@ -8,7 +8,7 @@ public class RegisterAdminCommandHandler(IApplicationDbContext dbContext)
     public async Task<int> Handle(RegisterAdminCommand command, CancellationToken cancellationToken)
     {
         if (_dbContext.User?.Role is not Role.Admin)
-            throw new ForbiddenException("Action forbidden");
+            throw new ForbiddenException();
 
         if (_dbContext.Users.Any(u => u.Email == command.Email))
             throw new ConflictException($"User with email {command.Email} already exists");

@@ -8,5 +8,7 @@ public interface IApplicationDbContext
 
     DbSet<User> Users { get; set; }
 
+    DbSet<Pet> Pets { get; set; }
+
     Task<int> SaveShangesAsync(CancellationToken cancellationToken);
 }
