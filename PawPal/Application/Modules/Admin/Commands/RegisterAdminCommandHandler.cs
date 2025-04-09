@@ -1,14 +1,15 @@
-﻿namespace Application.Modules.Auth;
+﻿namespace Application.Modules.Admin.Commands;
 
-public class RegisterCommandHandler(IApplicationDbContext dbContext, ITokenService tokenService)
-    : IRequestHandler<RegisterCommand, string>
+public class RegisterAdminCommandHandler(IApplicationDbContext dbContext)
+    : IRequestHandler<RegisterAdminCommand, int>
 {
     private readonly IApplicationDbContext _dbContext = dbContext;
 
-    private readonly ITokenService _tokenService = tokenService;
-
-    public async Task<string> Handle(RegisterCommand command, CancellationToken cancellationToken)
+    public async Task<int> Handle(RegisterAdminCommand command, CancellationToken cancellationToken)
     {
+        if (_dbContext.User?.Role is not Role.Admin)
+            throw new ForbiddenException("Action forbidden");
+
         if (_dbContext.Users.Any(u => u.Email == command.Email))
             throw new ConflictException($"User with email {command.Email} already exists");
 
@@ -17,14 +18,12 @@ public class RegisterCommandHandler(IApplicationDbContext dbContext, ITokenServi
         {
             Email = command.Email,
             PasswordHash = passwordHash,
-            Role = Role.User,
+            Role = Role.Admin,
         };
 
         _dbContext.Users.Add(user);
         await _dbContext.SaveShangesAsync(cancellationToken);
 
-        var token = await _tokenService.GenerateToken(user.Id);
-
-        return token;
+        return user.Id;
     }
 }

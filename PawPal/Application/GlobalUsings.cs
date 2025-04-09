@@ -6,6 +6,7 @@ global using Application.Utils.Extensions;
 global using Domain.Entities;
 global using Domain.Enums;
 global using Domain.Exceptions;
+global using Google.Apis.Auth;
 global using MediatR;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Configuration;

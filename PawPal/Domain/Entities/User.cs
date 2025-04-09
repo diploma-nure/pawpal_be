@@ -10,6 +10,8 @@ public class User : IAuditable
 
     public Role Role { get; set; }
 
+    public string? ProfilePictureUrl { get; set; }
+
     public DateTime CreatedAt { get; set; }
 
     public DateTime UpdatedAt { get; set; }

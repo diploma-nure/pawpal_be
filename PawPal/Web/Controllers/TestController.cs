@@ -1,7 +1,6 @@
 namespace Web.Controllers;
 
 [ApiController]
-[AllowAnonymous]
 [Route("api/[controller]")]
 public class TestController(IMediator mediator) : ControllerBase
 {
