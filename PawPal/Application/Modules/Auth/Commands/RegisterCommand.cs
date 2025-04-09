@@ -1,4 +1,4 @@
-﻿namespace Application.Modules.Auth;
+﻿namespace Application.Modules.Auth.Commands;
 
 public class RegisterCommand : IRequest<string>
 {

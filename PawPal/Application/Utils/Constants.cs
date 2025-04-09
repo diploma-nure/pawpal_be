@@ -4,7 +4,7 @@ public static class Constants
 {
     public static class Claims
     {
-        public const string IdClaim = "name";
+        public const string IdClaim = "id";
         public const string EmailClaim = "email";
         public const string RoleClaim = "role";
     }

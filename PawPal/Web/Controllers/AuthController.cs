@@ -13,4 +13,8 @@ public class AuthController(IMediator mediator) : ControllerBase
     [HttpPost("login")]
     public async Task<Result<string>> LoginAsync(LoginCommand command, CancellationToken cancellationToken)
         => new(await _mediator.Send(command, cancellationToken));
+
+    [HttpPost("login/google")]
+    public async Task<Result<string>> GoogleLoginAsync([FromBody] GoogleLoginCommand command, CancellationToken cancellationToken)
+        => new(await _mediator.Send(command, cancellationToken));
 }
