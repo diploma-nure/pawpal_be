@@ -15,7 +15,7 @@ public class AuthAttribute(string[]? roles = null) : ActionFilterAttribute
         if (_roles != null && _roles.Count > 0)
         {
             if (!_roles.Contains(user.Role))
-                throw new ForbiddenException("Forbidden");
+                throw new ForbiddenException();
         }
 
         await next();

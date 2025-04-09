@@ -18,3 +18,6 @@ global using Web.Attributes;
 global using Web.Middleware;
 global using Web.Models;
 global using Application.Modules.Admin.Commands;
+global using Application.Modules.Pets.Commands;
+global using Application.Modules.Pets.Dtos;
+global using Application.Modules.Pets.Queries;
