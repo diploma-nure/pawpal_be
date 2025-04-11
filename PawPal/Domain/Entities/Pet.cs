@@ -22,6 +22,8 @@ public class Pet : IAuditable
 
     public List<string>? PicturesUrls { get; set; }
 
+    public List<PetLike> PetLikes { get; set; }
+
     public DateTime CreatedAt { get; set; }
 
     public DateTime UpdatedAt { get; set; }

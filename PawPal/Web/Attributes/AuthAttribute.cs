@@ -8,9 +8,8 @@ public class AuthAttribute(string[]? roles = null) : ActionFilterAttribute
     {
         var dbContext = context.HttpContext.RequestServices.GetRequiredService<IApplicationDbContext>();
 
-        var user = dbContext.User;
-        if (user == null)
-            throw new UnauthorizedException("Unauthorized");
+        var user = dbContext.User
+            ?? throw new UnauthorizedException();
 
         if (_roles != null && _roles.Count > 0)
         {

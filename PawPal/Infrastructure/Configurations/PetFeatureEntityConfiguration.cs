@@ -6,11 +6,11 @@ public class PetFeatureEntityConfiguration : IEntityTypeConfiguration<PetFeature
     {
         builder.ToTable("pet_features");
 
-        builder.Property(p => p.Id).HasColumnName("pet_feature_id").IsRequired();
-        builder.Property(p => p.Feature).HasColumnName("feature").IsRequired();
-        builder.Property(p => p.CreatedAt).HasColumnName("created_at").IsRequired();
-        builder.Property(p => p.UpdatedAt).HasColumnName("updated_at").IsRequired();
+        builder.Property(pf => pf.Id).HasColumnName("pet_feature_id").IsRequired();
+        builder.Property(pf => pf.Feature).HasColumnName("feature").IsRequired();
+        builder.Property(pf => pf.CreatedAt).HasColumnName("created_at").IsRequired();
+        builder.Property(pf => pf.UpdatedAt).HasColumnName("updated_at").IsRequired();
 
-        builder.HasKey(p => p.Id).HasName("pk_pet_features");
+        builder.HasKey(pf => pf.Id).HasName("pk_pet_features");
     }
 }

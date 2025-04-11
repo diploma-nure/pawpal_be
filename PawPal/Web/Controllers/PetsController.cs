@@ -12,10 +12,20 @@ public class PetsController(IMediator mediator) : ControllerBase
         => new(await _mediator.Send(command, cancellationToken));
 
     [HttpGet("filtered")]
-    public async Task<Result<PaginatedListDto<PetInListDto>>> GetPetsFilteredAsyncAsync([FromQuery] GetPetsFilteredQuery command, CancellationToken cancellationToken)
-        => new(await _mediator.Send(command, cancellationToken));
+    public async Task<Result<PaginatedListDto<PetInListDto>>> GetPetsFilteredAsync([FromQuery] GetPetsFilteredQuery query, CancellationToken cancellationToken)
+        => new(await _mediator.Send(query, cancellationToken));
 
     [HttpGet("{id:int}")]
     public async Task<Result<PetDto>> GetPetByIdAsync([FromRoute] int id, CancellationToken cancellationToken)
         => new(await _mediator.Send(new GetPetByIdQuery(id), cancellationToken));
+
+    [HttpGet("like/{id:int}")]
+    [Auth]
+    public async Task<Result<int>> LikePetAsync([FromRoute] int id, CancellationToken cancellationToken)
+        => new(await _mediator.Send(new LikePetCommand(id), cancellationToken));
+
+    [HttpGet("unlike/{id:int}")]
+    [Auth]
+    public async Task<Result<int>> UnlikePetAsync([FromRoute] int id, CancellationToken cancellationToken)
+        => new(await _mediator.Send(new UnlikePetCommand(id), cancellationToken));
 }

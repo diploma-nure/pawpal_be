@@ -3,6 +3,8 @@ global using Application.Modules.Auth.Dtos;
 global using Application.Modules.Pets.Dtos;
 global using Application.Modules.Pets.Enums;
 global using Application.Modules.Pets.Mappings;
+global using Application.Modules.Users.Dtos;
+global using Application.Modules.Users.Mappings;
 global using Application.Services;
 global using Application.Utils;
 global using Application.Utils.Behaviors;

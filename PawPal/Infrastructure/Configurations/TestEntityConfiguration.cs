@@ -11,6 +11,6 @@ public class TestEntityConfiguration : IEntityTypeConfiguration<TestEntity>
         builder.Property(t => t.CreatedAt).HasColumnName("created_at").IsRequired();
         builder.Property(t => t.UpdatedAt).HasColumnName("updated_at").IsRequired();
 
-        builder.HasKey(t => t.Id).HasName("pk_test_entities");
+        builder.HasKey(t => t.Id).HasName("PK_test_entities");
     }
 }
