@@ -26,18 +26,18 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<Pet>
                      .HasOne<PetFeature>()
                      .WithMany()
                      .HasForeignKey("pet_feature_id")
-                     .HasConstraintName("fk_pets_pet_features_pet_feature_id"),
+                     .HasConstraintName("FK_pets_pet_features_pet_feature_id"),
                  j => j
                      .HasOne<Pet>()
                      .WithMany()
                      .HasForeignKey("pet_id")
-                     .HasConstraintName("fk_pets_pet_features_pet_id"),
+                     .HasConstraintName("FK_pets_pet_features_pet_id"),
                  j =>
                  {
                      j.HasKey("pet_id", "pet_feature_id");
                  });
 
 
-        builder.HasKey(p => p.Id).HasName("pk_pets");
+        builder.HasKey(p => p.Id).HasName("PK_pets");
     }
 }

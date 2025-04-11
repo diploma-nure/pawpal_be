@@ -11,7 +11,11 @@ public class GetPetsFilteredQueryHandler(IApplicationDbContext dbContext)
             .Include(p => p.Features)
             .AsNoTracking();
 
-        // todo: apply filtering here
+        pets = ApplyFiltering(pets, query.Species);
+        pets = ApplyFiltering(pets, query.Sizes);
+        pets = ApplyFiltering(pets, query.Ages);
+        pets = ApplyFiltering(pets, query.Genders);
+
         var count = pets.Count();
         pets = ApplySorting(pets, query.Sorting!);
         pets = pets.Paginate(query.Pagination.Page, query.Pagination.PageSize);
@@ -28,6 +32,18 @@ public class GetPetsFilteredQueryHandler(IApplicationDbContext dbContext)
 
         return result;
     }
+
+    private static IQueryable<Pet> ApplyFiltering(IQueryable<Pet> pets, List<PetSpecies>? species)
+        => species is null ? pets : pets.Where(p => species.Contains(p.Species));
+
+    private static IQueryable<Pet> ApplyFiltering(IQueryable<Pet> pets, List<PetSize>? sizes)
+        => sizes is null ? pets : pets.Where(p => sizes.Contains(p.Size));
+
+    private static IQueryable<Pet> ApplyFiltering(IQueryable<Pet> pets, List<PetAge>? ages)
+        => ages is null ? pets : pets.Where(p => ages.Contains(p.Age));
+
+    private static IQueryable<Pet> ApplyFiltering(IQueryable<Pet> pets, List<PetGender>? genders)
+        => genders is null ? pets : pets.Where(p => genders.Contains(p.Gender));
 
     private static IQueryable<Pet> ApplySorting(IQueryable<Pet> pets, SortingDto<PetSortingOptions> sortingDto)
     {

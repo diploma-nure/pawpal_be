@@ -12,5 +12,7 @@ public interface IApplicationDbContext
 
     DbSet<PetFeature> PetFeatures { get; set; }
 
+    DbSet<PetLike> PetLikes { get; set; }
+
     Task<int> SaveShangesAsync(CancellationToken cancellationToken);
 }

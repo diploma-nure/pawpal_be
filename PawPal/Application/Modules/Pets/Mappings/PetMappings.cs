@@ -1,6 +1,6 @@
 ﻿namespace Application.Modules.Pets.Mappings;
 
-public static class PetsMappings
+public static class PetMappings
 {
     public static PetInListDto ToPetInListDto(this Pet pet)
         => new()
