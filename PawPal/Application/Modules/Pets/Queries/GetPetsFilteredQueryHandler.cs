@@ -1,21 +1,30 @@
 ﻿namespace Application.Modules.Pets.Queries;
 
 public class GetPetsFilteredQueryHandler(IApplicationDbContext dbContext)
-    : IRequestHandler<GetPetsFilteredQuery, List<PetInListDto>>
+    : IRequestHandler<GetPetsFilteredQuery, PaginatedListDto<PetInListDto>>
 {
     private readonly IApplicationDbContext _dbContext = dbContext;
 
-    public async Task<List<PetInListDto>> Handle(GetPetsFilteredQuery command, CancellationToken cancellationToken)
+    public async Task<PaginatedListDto<PetInListDto>> Handle(GetPetsFilteredQuery query, CancellationToken cancellationToken)
     {
-        var pets = _dbContext.Pets.AsNoTracking();
+        var pets = _dbContext.Pets
+            .Include(p => p.Features)
+            .AsNoTracking();
 
-        pets = ApplySorting(pets, command.Sorting!);
+        // todo: apply filtering here
+        var count = pets.Count();
+        pets = ApplySorting(pets, query.Sorting!);
+        pets = pets.Paginate(query.Pagination.Page, query.Pagination.PageSize);
 
-        pets = pets.Paginate(command.Pagination.Page.Value, command.Pagination.PageSize.Value);
-
-        var result = await pets
-            .Select(p => p.ToPetInListDto())
-            .ToListAsync(cancellationToken);
+        var result = new PaginatedListDto<PetInListDto>()
+        {
+            Items = await pets
+                .Select(p => p.ToPetInListDto())
+                .ToListAsync(cancellationToken),
+            Page = query.Pagination.Page!.Value,
+            PageSize = query.Pagination.PageSize!.Value,
+            Count = count,
+        };
 
         return result;
     }
@@ -27,7 +36,7 @@ public class GetPetsFilteredQueryHandler(IApplicationDbContext dbContext)
             pets = sortingDto.Type switch
             {
                 PetSortingOptions.Name => pets.OrderBy(p => p.Name),
-                PetSortingOptions.Age => pets.OrderBy(p => p.AgeMonths),
+                PetSortingOptions.Age => pets.OrderBy(p => p.Age),
                 PetSortingOptions.Recent => pets.OrderBy(p => p.CreatedAt),
                 PetSortingOptions.Size => pets.OrderBy(p => p.Size),
                 _ => pets
@@ -38,7 +47,7 @@ public class GetPetsFilteredQueryHandler(IApplicationDbContext dbContext)
             pets = sortingDto.Type switch
             {
                 PetSortingOptions.Name => pets.OrderByDescending(p => p.Name),
-                PetSortingOptions.Age => pets.OrderByDescending(p => p.AgeMonths),
+                PetSortingOptions.Age => pets.OrderByDescending(p => p.Age),
                 PetSortingOptions.Recent => pets.OrderByDescending(p => p.CreatedAt),
                 PetSortingOptions.Size => pets.OrderByDescending(p => p.Size),
                 _ => pets

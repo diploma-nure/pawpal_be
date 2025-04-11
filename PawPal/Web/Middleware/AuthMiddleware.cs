@@ -12,7 +12,7 @@ public class AuthMiddleware
     public async Task Invoke(HttpContext context, ITokenService tokenService, IApplicationDbContext dbContext)
     {
         var token = context.Request.Headers.Authorization.FirstOrDefault()?.Split(" ").Last();
-        var userId = await tokenService.ValidateToken(token);
+        var userId = await tokenService.ValidateTokenAsync(token);
 
         if (userId != null)
         {

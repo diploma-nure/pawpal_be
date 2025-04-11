@@ -1,19 +1,40 @@
 ﻿namespace Application.Modules.Auth.Commands;
 
 public class LoginCommandHandler(IApplicationDbContext dbContext, ITokenService tokenService)
-    : IRequestHandler<LoginCommand, string>
+    : IRequestHandler<LoginCommand, LoginResponseDto>
 {
     private readonly IApplicationDbContext _dbContext = dbContext;
 
     private readonly ITokenService _tokenService = tokenService;
 
-    public async Task<string> Handle(LoginCommand command, CancellationToken cancellationToken)
+    public async Task<LoginResponseDto> Handle(LoginCommand command, CancellationToken cancellationToken)
     {
+        var normalizedEmail = command.Email.ToNormalizedEmail();
         var passwordHash = command.Password.ToSha256Hash();
-        var user = _dbContext.Users.FirstOrDefault(u => u.Email == command.Email && u.PasswordHash == passwordHash)
-            ?? throw new UnauthorizedException("Login attempt failed");
-        
-        var token = await _tokenService.GenerateToken(user.Id);
-        return token;
+        var user = _dbContext.Users.FirstOrDefault(u => u.Email == normalizedEmail);
+
+        string? token = null;
+        if (user != null)
+        {
+            if (user.PasswordHash != passwordHash)
+                throw new UnauthorizedException("Login attempt failed");
+
+            token = await _tokenService.GenerateTokenAsync(user.Id);
+            return new LoginResponseDto() { Token = token, IsNewUser = false };
+        }
+
+        user = new User
+        {
+            Email = normalizedEmail,
+            Role = Role.User,
+            PasswordHash = passwordHash,
+        };
+
+        _dbContext.Users.Add(user);
+        await _dbContext.SaveShangesAsync(cancellationToken);
+
+        token = await _tokenService.GenerateTokenAsync(user.Id);
+
+        return new LoginResponseDto() { Token = token, IsNewUser = true };
     }
 }

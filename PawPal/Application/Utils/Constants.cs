@@ -18,6 +18,12 @@ public static class Constants
 
     public static class Defaults
     {
-        public const string PetBreed = "";
+        public const string SuccessMessage = "Success";
+    }
+
+    public static class Media
+    {
+        public const string PetsFolderPath = "pets";
+        public const string PetsPicturesFolderPath = "pictures";
     }
 }

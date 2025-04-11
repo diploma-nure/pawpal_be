@@ -11,6 +11,7 @@ public class Result<TData>
     public Result(TData data)
     {
         Data = data;
+        Message = Constants.Defaults.SuccessMessage;
     }
 
     public Result(string message, List<string>? errors)

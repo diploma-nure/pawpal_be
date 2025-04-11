@@ -1,6 +1,6 @@
 ﻿namespace Application.Modules.Auth.Commands;
 
-public class LoginCommand : IRequest<string>
+public class LoginCommand : IRequest<LoginResponseDto>
 {
     public string Email { get; set; }
 

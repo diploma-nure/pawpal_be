@@ -8,6 +8,7 @@ builder.Services.ConfigureCors();
 
 var app = builder.Build();
 
+app.UseStaticFiles();
 app.UseCors("AllowAll");
 
 app.UseSwagger();
