@@ -5,7 +5,7 @@ public class TokenService(IApplicationDbContext dbContext, IOptions<AuthConfig> 
     private readonly IApplicationDbContext _dbContext = dbContext;
     private readonly AuthConfig _authConfig = authConfigOptions.Value;
 
-    public async Task<string> GenerateToken(int userId)
+    public async Task<string> GenerateTokenAsync(int userId)
     {
         var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId)
             ?? throw new Exception($"User with id {userId} was not found");
@@ -29,7 +29,7 @@ public class TokenService(IApplicationDbContext dbContext, IOptions<AuthConfig> 
         return tokenHandler.WriteToken(token);
     }
 
-    public async Task<int?> ValidateToken(string? token)
+    public async Task<int?> ValidateTokenAsync(string? token)
     {
         if (token == null)
             return null;

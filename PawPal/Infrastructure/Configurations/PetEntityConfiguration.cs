@@ -6,18 +6,38 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<Pet>
     {
         builder.ToTable("pets");
 
-        builder.Property(x => x.Id).HasColumnName("pet_id").IsRequired();
-        builder.Property(x => x.Name).HasColumnName("name").IsRequired();
-        builder.Property(x => x.Gender).HasColumnName("gender").IsRequired();
-        builder.Property(x => x.Size).HasColumnName("size").IsRequired();
-        builder.Property(x => x.AgeMonths).HasColumnName("age_months").IsRequired();
-        builder.Property(x => x.Breed).HasColumnName("breed");
-        builder.Property(x => x.HasSpecialNeeds).HasColumnName("has_special_needs").IsRequired();
-        builder.Property(x => x.Features).HasColumnName("features");
-        builder.Property(x => x.Description).HasColumnName("description");
-        builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired();
-        builder.Property(x => x.UpdatedAt).HasColumnName("updated_at").IsRequired();
+        builder.Property(p => p.Id).HasColumnName("pet_id").IsRequired();
+        builder.Property(p => p.Name).HasColumnName("name").IsRequired();
+        builder.Property(p => p.Species).HasColumnName("species").IsRequired();
+        builder.Property(p => p.Gender).HasColumnName("gender").IsRequired();
+        builder.Property(p => p.Size).HasColumnName("size").IsRequired();
+        builder.Property(p => p.Age).HasColumnName("age").IsRequired();
+        builder.Property(p => p.HasSpecialNeeds).HasColumnName("has_special_needs").IsRequired();
+        builder.Property(p => p.Description).HasColumnName("description");
+        builder.Property(p => p.PicturesUrls).HasColumnType("jsonb").HasColumnName("pictures_urls");
+        builder.Property(p => p.CreatedAt).HasColumnName("created_at").IsRequired();
+        builder.Property(p => p.UpdatedAt).HasColumnName("updated_at").IsRequired();
 
-        builder.HasKey(x => x.Id).HasName("pk_pets");
+        builder.HasMany(p => p.Features)
+            .WithMany(f => f.Pets)
+            .UsingEntity<Dictionary<string, object>>(
+                 "pets_pet_features",
+                 j => j
+                     .HasOne<PetFeature>()
+                     .WithMany()
+                     .HasForeignKey("pet_feature_id")
+                     .HasConstraintName("fk_pets_pet_features_pet_feature_id"),
+                 j => j
+                     .HasOne<Pet>()
+                     .WithMany()
+                     .HasForeignKey("pet_id")
+                     .HasConstraintName("fk_pets_pet_features_pet_id"),
+                 j =>
+                 {
+                     j.HasKey("pet_id", "pet_feature_id");
+                 });
+
+
+        builder.HasKey(p => p.Id).HasName("pk_pets");
     }
 }

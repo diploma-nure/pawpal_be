@@ -7,13 +7,27 @@ public static class PetsMappings
         {
             Id = pet.Id,
             Name = pet.Name,
+            Species = pet.Species,
             Gender = pet.Gender,
             Size = pet.Size,
-            AgeYears = pet.AgeMonths / 12,
-            AgeMonths = pet.AgeMonths % 12,
-            Breed = pet.Breed ?? Constants.Defaults.PetBreed,
+            Age = pet.Age,
             HasSpecialNeeds = pet.HasSpecialNeeds,
-            Features = pet.Features is not null ? JsonSerializer.Deserialize<List<string>>(pet.Features) : null,
             Description = pet.Description,
+            PictureUrl = pet.PicturesUrls?.FirstOrDefault(),
+        };
+
+    public static PetDto ToPetDto(this Pet pet)
+        => new()
+        {
+            Id = pet.Id,
+            Name = pet.Name,
+            Species = pet.Species,
+            Gender = pet.Gender,
+            Size = pet.Size,
+            Age = pet.Age,
+            HasSpecialNeeds = pet.HasSpecialNeeds,
+            Features = pet.Features.Select(f => f.Feature).ToList(),
+            Description = pet.Description,
+            PicturesUrls = pet.PicturesUrls,
         };
 }

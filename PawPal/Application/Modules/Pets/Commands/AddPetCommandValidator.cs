@@ -8,6 +8,10 @@ public sealed class AddPetCommandValidator
         RuleFor(command => command.Name)
             .NotEmpty();
 
+        RuleFor(command => command.Species)
+            .NotNull()
+            .IsInEnum();
+
         RuleFor(command => command.Gender)
             .NotNull()
             .IsInEnum();
@@ -16,16 +20,9 @@ public sealed class AddPetCommandValidator
             .NotNull()
             .IsInEnum();
 
-        RuleFor(command => command.AgeMonths)
+        RuleFor(command => command.Age)
             .NotNull()
-            .LessThanOrEqualTo(12);
-
-        RuleFor(command => command.AgeYears)
-            .NotNull()
-            .LessThanOrEqualTo(30);
-
-        RuleFor(command => new { command.AgeYears, command.AgeMonths })
-            .Must(x => x.AgeYears > 0 || x.AgeMonths > 0);
+            .IsInEnum();
 
         RuleFor(command => command.HasSpecialNeeds)
             .NotNull();

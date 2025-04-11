@@ -26,6 +26,10 @@ public class ExceptionMiddleware(RequestDelegate next)
         {
             await HandleExceptionAsync(context, ex.Message, ex, errors: ex.Errors);
         }
+        catch (NotFoundException ex)
+        {
+            await HandleExceptionAsync(context, ex.Message, ex, StatusCodes.Status404NotFound);
+        }
         catch (Exception ex)
         {
             await HandleExceptionAsync(context, ex.Message, ex, StatusCodes.Status500InternalServerError);

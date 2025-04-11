@@ -2,7 +2,7 @@
 
 public interface ITokenService
 {
-    Task<string> GenerateToken(int userId);
+    Task<string> GenerateTokenAsync(int userId);
 
-    Task<int?> ValidateToken(string? token);
+    Task<int?> ValidateTokenAsync(string? token);
 }

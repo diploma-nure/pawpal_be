@@ -6,19 +6,21 @@ public class Pet : IAuditable
 
     public string Name { get; set; }
 
-    public AnimalGender Gender { get; set; }
+    public PetSpecies Species { get; set; }
 
-    public AnimalSize Size { get; set; }
+    public PetGender Gender { get; set; }
 
-    public int AgeMonths { get; set; }
+    public PetSize Size { get; set; }
 
-    public string? Breed { get; set; }
+    public PetAge Age { get; set; }
 
     public bool HasSpecialNeeds { get; set; }
 
-    public string? Features { get; set; }
+    public List<PetFeature> Features { get; set; }
 
     public string? Description { get; set; }
+
+    public List<string>? PicturesUrls { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
