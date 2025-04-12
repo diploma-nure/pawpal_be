@@ -14,7 +14,7 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(p => p.Age).HasColumnName("age").IsRequired();
         builder.Property(p => p.HasSpecialNeeds).HasColumnName("has_special_needs").IsRequired();
         builder.Property(p => p.Description).HasColumnName("description");
-        builder.Property(p => p.PicturesUrls).HasColumnType("jsonb").HasColumnName("pictures_urls");
+        builder.Property(p => p.PicturesUrls).HasColumnName("pictures_urls").HasColumnType("jsonb");
         builder.Property(p => p.CreatedAt).HasColumnName("created_at").IsRequired();
         builder.Property(p => p.UpdatedAt).HasColumnName("updated_at").IsRequired();
 

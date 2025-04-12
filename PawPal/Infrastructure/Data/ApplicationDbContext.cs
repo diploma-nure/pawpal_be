@@ -17,6 +17,14 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public DbSet<PetLike> PetLikes { get; set; }
 
+    public DbSet<Survey> Surveys { get; set; }
+
+    public DbSet<SurveyOwnerDetails> SurveysOwnerDetails { get; set; }
+
+    public DbSet<SurveyResidenceDetails> SurveysResidenceDetails { get; set; }
+
+    public DbSet<SurveyPetPreferences> SurveysPetPreferences { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
