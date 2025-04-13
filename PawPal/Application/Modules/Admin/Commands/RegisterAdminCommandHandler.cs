@@ -19,6 +19,9 @@ public class RegisterAdminCommandHandler(IApplicationDbContext dbContext)
             Email = command.Email,
             PasswordHash = passwordHash,
             Role = Role.Admin,
+            FullName = command.FullName,
+            PhoneNumber = command.PhoneNumber,
+            Address = command.Address,
         };
 
         _dbContext.Users.Add(user);

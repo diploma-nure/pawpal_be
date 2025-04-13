@@ -11,6 +11,11 @@ public class UsersController(IMediator mediator) : ControllerBase
     public async Task<Result<UserInfoDto>> GetUserInfoAsync([FromQuery] GetUserInfoQuery query, CancellationToken cancellationToken)
         => new(await _mediator.Send(query, cancellationToken));
 
+    [HttpPut("info/update")]
+    [Auth]
+    public async Task<Result<int>> UpdateUserInfoAsync([FromBody] UpdateUserInfoCommand command, CancellationToken cancellationToken)
+        => new(await _mediator.Send(command, cancellationToken));
+
     [HttpGet("pets/liked")]
     [Auth]
     public async Task<Result<List<PetInListDto>>> GetLikedPetsAsync(CancellationToken cancellationToken)
@@ -21,7 +26,7 @@ public class UsersController(IMediator mediator) : ControllerBase
     public async Task<Result<SurveyDto>> GetSurveyAsync([FromQuery] GetSurveyQuery query, CancellationToken cancellationToken)
         => new(await _mediator.Send(query, cancellationToken));
 
-    [HttpPost("survey/complete")]
+    [HttpPut("survey/complete")]
     [Auth]
     public async Task<Result<int>> CompleteSurveyAsync([FromBody] CompleteSurveyCommand command, CancellationToken cancellationToken)
         => new(await _mediator.Send(command, cancellationToken));
