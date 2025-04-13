@@ -5,6 +5,7 @@ using Domain.Enums;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -13,9 +14,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250413095902_SurveyPetPreferencesRefactor")]
+    partial class SurveyPetPreferencesRefactor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,9 +179,6 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("OwnerDetailsId");
 
-                    b.HasIndex("PetPreferencesId")
-                        .IsUnique();
-
                     b.HasIndex("ResidenceDetailsId");
 
                     b.HasIndex("UserId")
@@ -259,12 +259,19 @@ namespace Infrastructure.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("ready_for_special_needs_pet");
 
+                    b.Property<int>("SurveyId")
+                        .HasColumnType("integer")
+                        .HasColumnName("survey_id");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id")
                         .HasName("PK_surveys_pet_preferences");
+
+                    b.HasIndex("SurveyId")
+                        .IsUnique();
 
                     b.ToTable("surveys_pet_preferences", (string)null);
                 });
@@ -312,6 +319,34 @@ namespace Infrastructure.Migrations
                     b.ToTable("surveys_residence_details", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.TestEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("test_entity_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("PK_test_entities");
+
+                    b.ToTable("test_entities", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -353,6 +388,10 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("integer")
                         .HasColumnName("role");
+
+                    b.Property<int>("SurveyId")
+                        .HasColumnType("integer")
+                        .HasColumnName("survey_id");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -421,12 +460,6 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.SurveyPetPreferences", "PetPreferences")
-                        .WithOne("Survey")
-                        .HasForeignKey("Domain.Entities.Survey", "PetPreferencesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entities.SurveyResidenceDetails", "ResidenceDetails")
                         .WithMany("Surveys")
                         .HasForeignKey("ResidenceDetailsId")
@@ -441,11 +474,20 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("OwnerDetails");
 
-                    b.Navigation("PetPreferences");
-
                     b.Navigation("ResidenceDetails");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.SurveyPetPreferences", b =>
+                {
+                    b.HasOne("Domain.Entities.Survey", "Survey")
+                        .WithOne("PetPreferences")
+                        .HasForeignKey("Domain.Entities.SurveyPetPreferences", "SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Survey");
                 });
 
             modelBuilder.Entity("pets_pet_features", b =>
@@ -487,15 +529,15 @@ namespace Infrastructure.Migrations
                     b.Navigation("PetLikes");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Survey", b =>
+                {
+                    b.Navigation("PetPreferences")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.Entities.SurveyOwnerDetails", b =>
                 {
                     b.Navigation("Surveys");
-                });
-
-            modelBuilder.Entity("Domain.Entities.SurveyPetPreferences", b =>
-                {
-                    b.Navigation("Survey")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entities.SurveyResidenceDetails", b =>

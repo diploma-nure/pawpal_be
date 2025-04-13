@@ -31,7 +31,7 @@ public class LoginCommandHandler(IApplicationDbContext dbContext, ITokenService 
         };
 
         _dbContext.Users.Add(user);
-        await _dbContext.SaveShangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
         token = await _tokenService.GenerateTokenAsync(user.Id);
 

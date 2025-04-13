@@ -22,7 +22,7 @@ public class RegisterAdminCommandHandler(IApplicationDbContext dbContext)
         };
 
         _dbContext.Users.Add(user);
-        await _dbContext.SaveShangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
         return user.Id;
     }

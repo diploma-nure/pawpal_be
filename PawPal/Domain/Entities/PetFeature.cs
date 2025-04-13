@@ -8,6 +8,8 @@ public class PetFeature : IAuditable
 
     public List<Pet> Pets { get; set; }
 
+    public List<SurveyPetPreferences> SurveysPetPreferences { get; set; }
+
     public DateTime CreatedAt { get; set; }
 
     public DateTime UpdatedAt { get; set; }

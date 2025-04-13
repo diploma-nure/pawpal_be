@@ -28,7 +28,7 @@ public class GoogleLoginCommandHandler(IApplicationDbContext dbContext, ITokenSe
         };
 
         _dbContext.Users.Add(user);
-        await _dbContext.SaveShangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
         token = await _tokenService.GenerateTokenAsync(user.Id);
 

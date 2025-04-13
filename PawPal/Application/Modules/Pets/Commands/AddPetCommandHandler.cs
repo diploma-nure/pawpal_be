@@ -27,7 +27,7 @@ public class AddPetCommandHandler(IApplicationDbContext dbContext, IMediaService
             pet.Features = await _dbContext.PetFeatures.Where(f => command.FeaturesIds.Contains(f.Id)).ToListAsync(cancellationToken);
 
         _dbContext.Pets.Add(pet);
-        await _dbContext.SaveShangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
         
         if (command.Pictures is not null && command.Pictures.Count > 0)
         {
@@ -39,7 +39,7 @@ public class AddPetCommandHandler(IApplicationDbContext dbContext, IMediaService
             }
 
             pet.PicturesUrls = picturesUrls;
-            await _dbContext.SaveShangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
         return pet.Id;

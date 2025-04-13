@@ -17,6 +17,10 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.CreatedAt).HasColumnName("created_at").IsRequired();
         builder.Property(u => u.UpdatedAt).HasColumnName("updated_at").IsRequired();
 
+        builder.HasOne(u => u.Survey)
+               .WithOne(s => s.User)
+               .HasForeignKey<Survey>(s => s.UserId);
+
         builder.HasKey(u => u.Id).HasName("PK_users");
     }
 }

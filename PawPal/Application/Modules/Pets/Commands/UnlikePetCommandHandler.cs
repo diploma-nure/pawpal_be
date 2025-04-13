@@ -20,7 +20,7 @@ public class UnlikePetCommandHandler(IApplicationDbContext dbContext)
             return pet.Id;
 
         _dbContext.PetLikes.Remove(like);
-        await _dbContext.SaveShangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
         return pet.Id;
     }
