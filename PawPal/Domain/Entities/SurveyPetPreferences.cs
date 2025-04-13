@@ -17,8 +17,8 @@ public class SurveyPetPreferences : IAuditable
     public PetActivity DesiredActivityLevel { get; set; }
 
     public bool ReadyForSpecialNeedsPet { get; set; }
-
-    public List<Survey> Surveys { get; set; }
+    
+    public Survey Survey { get; set; }
 
     public DateTime CreatedAt { get; set; }
 

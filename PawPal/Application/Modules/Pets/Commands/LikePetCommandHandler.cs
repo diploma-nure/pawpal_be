@@ -26,7 +26,7 @@ public class LikePetCommandHandler(IApplicationDbContext dbContext)
         };
 
         _dbContext.PetLikes.Add(like);
-        await _dbContext.SaveShangesAsync(cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
         return pet.Id;
     }

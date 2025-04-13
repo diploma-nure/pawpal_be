@@ -20,8 +20,6 @@ public class User : IAuditable
 
     public List<PetLike> PetLikes { get; set; }
 
-    public int SurveyId { get; set; }
-
     public Survey Survey { get; set; }
 
     public DateTime CreatedAt { get; set; }

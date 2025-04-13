@@ -7,10 +7,10 @@ public class SurveyPetPreferencesEntityConfiguration : IEntityTypeConfiguration<
         builder.ToTable("surveys_pet_preferences");
 
         builder.Property(p => p.Id).HasColumnName("survey_pet_preferences_id").IsRequired();
-        builder.Property(p => p.PreferredSpecies).HasColumnName("preferred_species").HasColumnType("jsonb").IsRequired();
-        builder.Property(p => p.PreferredSizes).HasColumnName("preferred_sizes").HasColumnType("jsonb").IsRequired();
-        builder.Property(p => p.PreferredAges).HasColumnName("preferred_ages").HasColumnType("jsonb").IsRequired();
-        builder.Property(p => p.PreferredGenders).HasColumnName("preferred_genders").HasColumnType("jsonb").IsRequired();
+        builder.Property(p => p.PreferredSpecies).HasColumnName("preferred_species").HasColumnType("jsonb");
+        builder.Property(p => p.PreferredSizes).HasColumnName("preferred_sizes").HasColumnType("jsonb");
+        builder.Property(p => p.PreferredAges).HasColumnName("preferred_ages").HasColumnType("jsonb");
+        builder.Property(p => p.PreferredGenders).HasColumnName("preferred_genders").HasColumnType("jsonb");
         builder.Property(p => p.DesiredActivityLevel).HasColumnName("desired_activity_level").IsRequired();
         builder.Property(p => p.ReadyForSpecialNeedsPet).HasColumnName("ready_for_special_needs_pet").IsRequired();
         builder.Property(p => p.CreatedAt).HasColumnName("created_at").IsRequired();

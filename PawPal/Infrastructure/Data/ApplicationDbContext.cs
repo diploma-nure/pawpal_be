@@ -31,6 +31,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
-    public async Task<int> SaveShangesAsync(CancellationToken cancellationToken)
+    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         => await base.SaveChangesAsync(cancellationToken);
 }

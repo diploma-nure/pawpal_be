@@ -1,6 +1,6 @@
 ﻿namespace Application.Modules.Users.Queries;
 
-public class GetUserInfoQuery : IRequest<UserInfoDto>
+public class GetSurveyQuery : IRequest<SurveyDto>
 {
     public int? Id { get; set; }
 }

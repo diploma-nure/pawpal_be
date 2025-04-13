@@ -17,7 +17,7 @@ public class SurveyEntityConfiguration : IEntityTypeConfiguration<Survey>
 
         builder.HasOne(s => s.OwnerDetails).WithMany(o => o.Surveys);
         builder.HasOne(s => s.ResidenceDetails).WithMany(r => r.Surveys);
-        builder.HasOne(s => s.PetPreferences).WithMany(p => p.Surveys);
+        builder.HasOne(s => s.PetPreferences).WithOne(p => p.Survey).HasForeignKey<Survey>(s => s.PetPreferencesId);
         
         builder.HasKey(s => s.Id).HasName("PK_surveys");
     }

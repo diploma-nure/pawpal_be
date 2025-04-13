@@ -15,13 +15,13 @@ public class GetUserInfoQueryHandler(IApplicationDbContext dbContext)
             return result;
         }
 
-        if (_dbContext.User!.Role is not Role.Admin)
-            throw new ForbiddenException();
-
         var user = await _dbContext.Users
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Id == query.Id, cancellationToken)
             ?? throw new NotFoundException($"User with id {query.Id} not found");
+
+        if (_dbContext.User!.Role is not Role.Admin && user.Id != _dbContext.User!.Id)
+            throw new ForbiddenException();
 
         result = user.ToUserInfoDto();
         return result;
