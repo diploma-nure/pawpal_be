@@ -7,8 +7,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public User? User { get; set; }
 
-    public DbSet<TestEntity> TestEntities { get; set; }
-
     public DbSet<User> Users { get; set; }
 
     public DbSet<Pet> Pets { get; set; }

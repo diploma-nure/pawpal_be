@@ -6,7 +6,6 @@ global using Application.Modules.Auth.Dtos;
 global using Application.Modules.Pets.Commands;
 global using Application.Modules.Pets.Dtos;
 global using Application.Modules.Pets.Queries;
-global using Application.Modules.Test;
 global using Application.Modules.Users.Commands;
 global using Application.Modules.Users.Dtos;
 global using Application.Modules.Users.Queries;
