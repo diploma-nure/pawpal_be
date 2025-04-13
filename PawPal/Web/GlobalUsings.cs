@@ -3,6 +3,8 @@ global using Application.Interfaces;
 global using Application.Modules.Admin.Commands;
 global using Application.Modules.Auth.Commands;
 global using Application.Modules.Auth.Dtos;
+global using Application.Modules.PetFeatures.Dtos;
+global using Application.Modules.PetFeatures.Query;
 global using Application.Modules.Pets.Commands;
 global using Application.Modules.Pets.Dtos;
 global using Application.Modules.Pets.Queries;
