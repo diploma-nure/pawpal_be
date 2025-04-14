@@ -58,10 +58,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("name");
 
-                    b.Property<List<string>>("PicturesUrls")
-                        .HasColumnType("jsonb")
-                        .HasColumnName("pictures_urls");
-
                     b.Property<int>("Size")
                         .HasColumnType("integer")
                         .HasColumnName("size");
@@ -132,6 +128,59 @@ namespace Infrastructure.Migrations
                     b.HasIndex("PetId");
 
                     b.ToTable("pet_likes", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Picture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("picture_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("integer")
+                        .HasColumnName("order");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("text")
+                        .HasColumnName("path");
+
+                    b.Property<int?>("PetId")
+                        .HasColumnType("integer")
+                        .HasColumnName("pet_id");
+
+                    b.Property<int>("Source")
+                        .HasColumnType("integer")
+                        .HasColumnName("source");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("url");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("PK_pictures");
+
+                    b.HasIndex("PetId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("pictures", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Survey", b =>
@@ -346,10 +395,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("phone_number");
 
-                    b.Property<string>("ProfilePictureUrl")
-                        .HasColumnType("text")
-                        .HasColumnName("profile_picture_url");
-
                     b.Property<int>("Role")
                         .HasColumnType("integer")
                         .HasColumnName("role");
@@ -407,6 +452,21 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Pet");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Picture", b =>
+                {
+                    b.HasOne("Domain.Entities.Pet", "Pet")
+                        .WithMany("Pictures")
+                        .HasForeignKey("PetId");
+
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithOne("ProfilePicture")
+                        .HasForeignKey("Domain.Entities.Picture", "UserId");
 
                     b.Navigation("Pet");
 
@@ -485,6 +545,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Pet", b =>
                 {
                     b.Navigation("PetLikes");
+
+                    b.Navigation("Pictures");
                 });
 
             modelBuilder.Entity("Domain.Entities.SurveyOwnerDetails", b =>
@@ -506,6 +568,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.Navigation("PetLikes");
+
+                    b.Navigation("ProfilePicture");
 
                     b.Navigation("Survey")
                         .IsRequired();

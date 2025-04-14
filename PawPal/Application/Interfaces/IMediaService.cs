@@ -2,5 +2,5 @@
 
 public interface IMediaService
 {
-    Task<string> UploadPetPictureAsync(int petId, IFormFile file);
+    Task<(string Url, string Path)> UploadPetPictureAsync(int petId, IFormFile file);
 }

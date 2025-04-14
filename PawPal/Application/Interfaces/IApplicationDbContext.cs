@@ -14,6 +14,8 @@ public interface IApplicationDbContext
 
     DbSet<Survey> Surveys { get; set; }
 
+    DbSet<Picture> Pictures { get; set; }
+
     DbSet<SurveyOwnerDetails> SurveysOwnerDetails { get; set; }
 
     DbSet<SurveyResidenceDetails> SurveysResidenceDetails { get; set; }

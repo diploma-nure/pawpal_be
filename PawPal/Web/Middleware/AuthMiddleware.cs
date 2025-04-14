@@ -16,7 +16,9 @@ public class AuthMiddleware
 
         if (userId != null)
         {
-            var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId.Value)
+            var user = await dbContext.Users
+                .Include(u => u.ProfilePicture)
+                .FirstOrDefaultAsync(u => u.Id == userId.Value)
                 ?? throw new UnauthorizedException($"User with id {userId.Value} was not found");
 
             dbContext.User = user;

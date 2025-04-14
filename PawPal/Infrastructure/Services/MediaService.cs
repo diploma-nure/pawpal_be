@@ -6,7 +6,7 @@ public class MediaService(IWebHostEnvironment env, IHttpContextAccessor httpCont
 
     private readonly HttpRequest _request = httpContextAccessor.HttpContext?.Request ?? throw new ArgumentNullException(nameof(httpContextAccessor.HttpContext));
 
-    public async Task<string> UploadPetPictureAsync(int petId, IFormFile file)
+    public async Task<(string Url, string Path)> UploadPetPictureAsync(int petId, IFormFile file)
     {
         if (file.Length <= 0)
             throw new ConflictException($"File {file.FileName} is empty");
@@ -24,6 +24,6 @@ public class MediaService(IWebHostEnvironment env, IHttpContextAccessor httpCont
         await file.CopyToAsync(stream);
 
         var url = $"{_request.Scheme}://{_request.Host}/{Constants.Media.PetsFolderPath}/{petId}/{Constants.Media.PetsPicturesFolderPath}/{uniqueFileName}";
-        return url;
+        return (url, filePath);
     }
 }
