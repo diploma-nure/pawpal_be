@@ -13,7 +13,7 @@ public static class PetMappings
             Age = pet.Age,
             HasSpecialNeeds = pet.HasSpecialNeeds,
             Description = pet.Description,
-            PictureUrl = pet.PicturesUrls?.FirstOrDefault(),
+            PictureUrl = pet.Pictures?.OrderBy(p => p.Order).FirstOrDefault()?.Url,
         };
 
     public static PetDto ToPetDto(this Pet pet)
@@ -28,6 +28,14 @@ public static class PetMappings
             HasSpecialNeeds = pet.HasSpecialNeeds,
             Features = pet.Features.Select(f => f.Feature).ToList(),
             Description = pet.Description,
-            PicturesUrls = pet.PicturesUrls,
+            Pictures = pet.Pictures?.OrderBy(p => p.Order).Select(p => p.ToPetPictureDto()).ToList(),
+        };
+
+    public static PetPictureDto ToPetPictureDto(this Picture picture)
+        => new()
+        {
+            Id = picture.Id,
+            Url = picture.Url,
+            Order = picture.Order,
         };
 }

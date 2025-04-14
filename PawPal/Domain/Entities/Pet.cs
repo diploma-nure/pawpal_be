@@ -20,9 +20,9 @@ public class Pet : IAuditable
 
     public string? Description { get; set; }
 
-    public List<string>? PicturesUrls { get; set; }
-
     public List<PetLike> PetLikes { get; set; }
+
+    public List<Picture> Pictures { get; set; }
 
     public DateTime CreatedAt { get; set; }
 

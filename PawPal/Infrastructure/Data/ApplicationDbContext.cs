@@ -17,6 +17,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public DbSet<Survey> Surveys { get; set; }
 
+    public DbSet<Picture> Pictures { get; set; }
+
     public DbSet<SurveyOwnerDetails> SurveysOwnerDetails { get; set; }
 
     public DbSet<SurveyResidenceDetails> SurveysResidenceDetails { get; set; }

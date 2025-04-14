@@ -24,7 +24,11 @@ public class GoogleLoginCommandHandler(IApplicationDbContext dbContext, ITokenSe
         {
             Email = normalizedEmail,
             Role = Role.User,
-            ProfilePictureUrl = payload.Picture,
+            ProfilePicture = new()
+            {
+                Source = FileSource.Google,
+                Url = payload.Picture,
+            },
         };
 
         _dbContext.Users.Add(user);

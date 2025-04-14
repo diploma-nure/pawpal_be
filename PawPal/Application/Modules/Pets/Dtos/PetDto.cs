@@ -20,5 +20,5 @@ public class PetDto
 
     public string? Description { get; set; }
 
-    public List<string>? PicturesUrls { get; set; }
+    public List<PetPictureDto>? Pictures { get; set; }
 }

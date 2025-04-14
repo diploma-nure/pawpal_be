@@ -9,6 +9,7 @@ public class GetPetsFilteredQueryHandler(IApplicationDbContext dbContext)
     {
         var pets = _dbContext.Pets
             .Include(p => p.Features)
+            .Include(p => p.Pictures)
             .AsNoTracking();
 
         pets = ApplyFiltering(pets, query.Species);

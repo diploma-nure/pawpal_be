@@ -31,14 +31,21 @@ public class AddPetCommandHandler(IApplicationDbContext dbContext, IMediaService
         
         if (command.Pictures is not null && command.Pictures.Count > 0)
         {
-            var picturesUrls = new List<string>();
+            var order = 1;
+            var pictures = new List<Picture>();
             foreach (var picture in command.Pictures)
             {
-                var url = await _mediaService.UploadPetPictureAsync(pet.Id, picture);
-                picturesUrls.Add(url);
+                (var url, var path) = await _mediaService.UploadPetPictureAsync(pet.Id, picture);
+                pictures.Add(new()
+                {
+                    Source = FileSource.Internal,
+                    Url = url,
+                    Path = path,
+                    Order = order++,
+                });
             }
 
-            pet.PicturesUrls = picturesUrls;
+            pet.Pictures = pictures;
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 

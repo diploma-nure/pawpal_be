@@ -16,6 +16,7 @@ public class GetUserInfoQueryHandler(IApplicationDbContext dbContext)
         }
 
         var user = await _dbContext.Users
+            .Include(u => u.ProfilePicture)
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Id == query.Id, cancellationToken)
             ?? throw new NotFoundException($"User with id {query.Id} not found");

@@ -7,7 +7,7 @@ public static class UserMappings
         {
             Id = user.Id,
             Email = user.Email,
-            ProfilePictureUrl = user.ProfilePictureUrl,
+            ProfilePictureUrl = user.ProfilePicture?.Url,
             FullName = user.FullName,
             PhoneNumber = user.PhoneNumber,
             Address = user.Address,

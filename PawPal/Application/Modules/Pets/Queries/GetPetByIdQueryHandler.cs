@@ -9,6 +9,7 @@ public class GetPetByIdQueryHandler(IApplicationDbContext dbContext)
     {
         var pet = await _dbContext.Pets
             .Include(p => p.Features)
+            .Include(p => p.Pictures)
             .AsNoTracking()
             .FirstOrDefaultAsync(p => p.Id == query.Id, cancellationToken)
             ?? throw new NotFoundException($"Pet with id {query.Id} not found");

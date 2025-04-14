@@ -10,8 +10,6 @@ public class User : IAuditable
 
     public Role Role { get; set; }
 
-    public string? ProfilePictureUrl { get; set; }
-
     public string? FullName { get; set; }
 
     public string? PhoneNumber { get; set; }
@@ -19,6 +17,8 @@ public class User : IAuditable
     public string? Address { get; set; }
 
     public List<PetLike> PetLikes { get; set; }
+
+    public Picture? ProfilePicture { get; set; }
 
     public Survey Survey { get; set; }
 

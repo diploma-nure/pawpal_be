@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Configurations;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Infrastructure.Configurations;
 
 public class PetEntityConfiguration : IEntityTypeConfiguration<Pet>
 {
@@ -14,7 +16,6 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(p => p.Age).HasColumnName("age").IsRequired();
         builder.Property(p => p.HasSpecialNeeds).HasColumnName("has_special_needs").IsRequired();
         builder.Property(p => p.Description).HasColumnName("description");
-        builder.Property(p => p.PicturesUrls).HasColumnName("pictures_urls").HasColumnType("jsonb");
         builder.Property(p => p.CreatedAt).HasColumnName("created_at").IsRequired();
         builder.Property(p => p.UpdatedAt).HasColumnName("updated_at").IsRequired();
 
@@ -36,6 +37,10 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<Pet>
                  {
                      j.HasKey("pet_id", "pet_feature_id");
                  });
+
+        builder.HasMany(p => p.Pictures)
+            .WithOne(p => p.Pet)
+            .HasForeignKey(p => p.PetId);
 
 
         builder.HasKey(p => p.Id).HasName("PK_pets");
