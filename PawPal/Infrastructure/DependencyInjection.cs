@@ -22,6 +22,7 @@ public static class DependencyInjection
         services.AddHttpContextAccessor();
 
         services.AddScoped<IMediaService, MediaService>();
+        services.AddScoped<IEmailService, EmailService>();
 
         return services;
     }

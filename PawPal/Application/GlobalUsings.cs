@@ -14,6 +14,7 @@ global using Application.Utils.Configs;
 global using Application.Utils.Dtos;
 global using Application.Utils.Enums;
 global using Application.Utils.Extensions;
+global using Application.Utils.Helpers;
 global using Application.Utils.Validators;
 global using Domain.Entities;
 global using Domain.Enums;

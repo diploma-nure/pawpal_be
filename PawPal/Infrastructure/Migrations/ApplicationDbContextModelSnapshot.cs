@@ -391,6 +391,10 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("password_hash");
 
+                    b.Property<string>("PasswordRecoveryCode")
+                        .HasColumnType("text")
+                        .HasColumnName("password_recovery_code");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text")
                         .HasColumnName("phone_number");

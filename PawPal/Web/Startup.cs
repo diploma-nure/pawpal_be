@@ -61,6 +61,7 @@ public static class Startup
     public static IServiceCollection ConfigureOptions(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<AuthConfig>(configuration.GetSection(AuthConfig.Auth));
+        services.Configure<EmailConfig>(configuration.GetSection(EmailConfig.Email));
 
         return services;
     }
