@@ -16,6 +16,8 @@ public class User : IAuditable
 
     public string? Address { get; set; }
 
+    public string? PasswordRecoveryCode { get; set; }
+
     public List<PetLike> PetLikes { get; set; }
 
     public Picture? ProfilePicture { get; set; }
