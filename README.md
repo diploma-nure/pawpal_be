@@ -15,4 +15,9 @@
 - ASP.NET Core Web Api
 - Entity Framework Core
 - PostgreSQL
+- MailKit
+- Google Auth API
 - Swagger
+- MediatR
+- FluentValidation
+- JWT
