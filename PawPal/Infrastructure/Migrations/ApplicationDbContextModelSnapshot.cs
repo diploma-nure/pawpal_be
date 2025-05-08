@@ -24,6 +24,46 @@ namespace Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Entities.Meeting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("meeting_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AdminId")
+                        .HasColumnType("integer")
+                        .HasColumnName("admin_id");
+
+                    b.Property<int>("ApplicationId")
+                        .HasColumnType("integer")
+                        .HasColumnName("application_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("PK_meetings");
+
+                    b.HasIndex("AdminId");
+
+                    b.HasIndex("ApplicationId")
+                        .IsUnique();
+
+                    b.ToTable("meetings", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.Pet", b =>
                 {
                     b.Property<int>("Id")
@@ -74,6 +114,45 @@ namespace Infrastructure.Migrations
                         .HasName("PK_pets");
 
                     b.ToTable("pets", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.PetApplication", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("application_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<int>("PetId")
+                        .HasColumnType("integer")
+                        .HasColumnName("pet_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("PK_applications");
+
+                    b.HasIndex("PetId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("applications", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.PetFeature", b =>
@@ -443,6 +522,44 @@ namespace Infrastructure.Migrations
                     b.ToTable("surveys_pet_preferences_pet_features");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Meeting", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "Admin")
+                        .WithMany("Meetings")
+                        .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.PetApplication", "Application")
+                        .WithOne("Meeting")
+                        .HasForeignKey("Domain.Entities.Meeting", "ApplicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Admin");
+
+                    b.Navigation("Application");
+                });
+
+            modelBuilder.Entity("Domain.Entities.PetApplication", b =>
+                {
+                    b.HasOne("Domain.Entities.Pet", "Pet")
+                        .WithMany("Applications")
+                        .HasForeignKey("PetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("Applications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pet");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Domain.Entities.PetLike", b =>
                 {
                     b.HasOne("Domain.Entities.Pet", "Pet")
@@ -548,9 +665,16 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Pet", b =>
                 {
+                    b.Navigation("Applications");
+
                     b.Navigation("PetLikes");
 
                     b.Navigation("Pictures");
+                });
+
+            modelBuilder.Entity("Domain.Entities.PetApplication", b =>
+                {
+                    b.Navigation("Meeting");
                 });
 
             modelBuilder.Entity("Domain.Entities.SurveyOwnerDetails", b =>
@@ -571,6 +695,10 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
+                    b.Navigation("Applications");
+
+                    b.Navigation("Meetings");
+
                     b.Navigation("PetLikes");
 
                     b.Navigation("ProfilePicture");

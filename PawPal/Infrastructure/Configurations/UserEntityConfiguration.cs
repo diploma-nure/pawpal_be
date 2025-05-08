@@ -18,12 +18,20 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.UpdatedAt).HasColumnName("updated_at").IsRequired();
 
         builder.HasOne(u => u.Survey)
-               .WithOne(s => s.User)
-               .HasForeignKey<Survey>(s => s.UserId);
+            .WithOne(s => s.User)
+            .HasForeignKey<Survey>(s => s.UserId);
 
         builder.HasOne(u => u.ProfilePicture)
             .WithOne(p => p.User)
             .HasForeignKey<Picture>(p => p.UserId);
+
+        builder.HasMany(u => u.Applications)
+            .WithOne(a => a.User)
+            .HasForeignKey(a => a.UserId);
+
+        builder.HasMany(u => u.Meetings)
+            .WithOne(m => m.Admin)
+            .HasForeignKey(m => m.AdminId);
 
         builder.HasKey(u => u.Id).HasName("PK_users");
     }

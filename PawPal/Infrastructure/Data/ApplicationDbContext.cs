@@ -25,6 +25,10 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public DbSet<SurveyPetPreferences> SurveysPetPreferences { get; set; }
 
+    public DbSet<PetApplication> Applications { get; set; }
+
+    public DbSet<Meeting> Meetings { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

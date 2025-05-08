@@ -20,6 +20,10 @@ public class User : IAuditable
 
     public List<PetLike> PetLikes { get; set; }
 
+    public List<PetApplication> Applications { get; set; }
+
+    public List<Meeting> Meetings { get; set; }
+
     public Picture? ProfilePicture { get; set; }
 
     public Survey Survey { get; set; }
