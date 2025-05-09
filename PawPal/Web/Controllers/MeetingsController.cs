@@ -1,5 +1,3 @@
-using Application.Modules.Meetings.Commands;
-
 namespace Web.Controllers;
 
 [ApiController]
@@ -17,4 +15,9 @@ public class MeetingsController(IMediator mediator) : ControllerBase
     [Auth([Constants.Roles.User])]
     public async Task<Result<int>> ScheduleMeetingAsync([FromBody] ScheduleMeetingCommand command, CancellationToken cancellationToken)
         => new(await _mediator.Send(command, cancellationToken));
+
+    [HttpGet("join")]
+    [Auth]
+    public async Task<Result<MeetingJoinInfoDto>> JoinMeetingAsync([FromQuery] JoinMeetingCommand command, CancellationToken cancellationToken)
+    => new(await _mediator.Send(command, cancellationToken));
 }

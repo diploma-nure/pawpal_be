@@ -62,6 +62,7 @@ public static class Startup
     {
         services.Configure<AuthConfig>(configuration.GetSection(AuthConfig.Auth));
         services.Configure<EmailConfig>(configuration.GetSection(EmailConfig.Email));
+        services.Configure<LiveKitConfig>(configuration.GetSection(LiveKitConfig.LiveKit));
 
         return services;
     }

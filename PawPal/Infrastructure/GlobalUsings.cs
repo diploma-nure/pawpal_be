@@ -1,5 +1,4 @@
 ﻿global using Application.Interfaces;
-global using Application.Utils;
 global using Application.Utils.Configs;
 global using Domain.Common;
 global using Domain.Entities;
@@ -7,6 +6,7 @@ global using Domain.Exceptions;
 global using Infrastructure.Data;
 global using Infrastructure.Interceptors;
 global using Infrastructure.Services;
+global using Livekit.Server.Sdk.Dotnet;
 global using MailKit.Net.Smtp;
 global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.AspNetCore.Http;
@@ -19,3 +19,4 @@ global using Microsoft.Extensions.Options;
 global using MimeKit;
 global using Npgsql;
 global using System.Reflection;
+global using Constants = Application.Utils.Constants;
