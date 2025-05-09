@@ -1,6 +1,6 @@
 ﻿namespace Application.Modules.Applications.Commands;
 
-public class SubmitApplicationCommand(int petId) : IRequest<int>
+public class SubmitApplicationCommand : IRequest<int>
 {
-    public int PetId { get; set; } = petId;
+    public int PetId { get; set; }
 }

@@ -2,5 +2,5 @@
 
 public class GetUserInfoQuery : IRequest<UserInfoDto>
 {
-    public int? Id { get; set; }
+    public int? UserId { get; set; }
 }

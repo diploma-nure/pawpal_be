@@ -11,6 +11,11 @@ public class MeetingsController(IMediator mediator) : ControllerBase
     public async Task<Result<List<DaySlotDto>>> GetMeetingSlotsAsync([FromQuery] GetMeetingSlotsQuery query, CancellationToken cancellationToken)
         => new(await _mediator.Send(query, cancellationToken));
 
+    [HttpGet("filtered")]
+    [Auth([Constants.Roles.Admin])]
+    public async Task<Result<PaginatedListDto<MeetingInListDto>>> GetMeetingsFilteredAsync([FromQuery] GetMeetingsFilteredQuery query, CancellationToken cancellationToken)
+        => new(await _mediator.Send(query, cancellationToken));
+
     [HttpPost("schedule")]
     [Auth([Constants.Roles.User])]
     public async Task<Result<int>> ScheduleMeetingAsync([FromBody] ScheduleMeetingCommand command, CancellationToken cancellationToken)
@@ -20,4 +25,9 @@ public class MeetingsController(IMediator mediator) : ControllerBase
     [Auth]
     public async Task<Result<MeetingJoinInfoDto>> JoinMeetingAsync([FromQuery] JoinMeetingCommand command, CancellationToken cancellationToken)
     => new(await _mediator.Send(command, cancellationToken));
+
+    [HttpPatch("status")]
+    [Auth([Constants.Roles.Admin])]
+    public async Task<Result<int>> ChangeMeetingStatusAsync([FromBody] ChangeMeetingStatusCommand command, CancellationToken cancellationToken)
+        => new(await _mediator.Send(command, cancellationToken));
 }

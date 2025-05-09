@@ -5,8 +5,8 @@ public sealed class GetUserInfoQueryValidator
 {
     public GetUserInfoQueryValidator()
     {
-        RuleFor(query => query.Id)
+        RuleFor(query => query.UserId)
             .GreaterThan(0)
-            .When(query => query.Id.HasValue);
+            .When(query => query.UserId.HasValue);
     }
 }

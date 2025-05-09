@@ -11,10 +11,10 @@ public class ApplicationsController(IMediator mediator) : ControllerBase
     public async Task<Result<PaginatedListDto<ApplicationInListDto>>> GetApplicationsFilteredAsync([FromQuery] GetApplicationsFilteredQuery query, CancellationToken cancellationToken)
         => new(await _mediator.Send(query, cancellationToken));
 
-    [HttpPost("submit/{petId:int}")]
+    [HttpPost("submit")]
     [Auth([Constants.Roles.User])]
-    public async Task<Result<int>> SubmitApplicationAsync([FromRoute] int petId, CancellationToken cancellationToken)
-        => new(await _mediator.Send(new SubmitApplicationCommand(petId), cancellationToken));
+    public async Task<Result<int>> SubmitApplicationAsync([FromBody] SubmitApplicationCommand command, CancellationToken cancellationToken)
+        => new(await _mediator.Send(command, cancellationToken));
 
     [HttpPatch("status")]
     [Auth([Constants.Roles.Admin])]

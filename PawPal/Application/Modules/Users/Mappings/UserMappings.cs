@@ -13,6 +13,13 @@ public static class UserMappings
             Address = user.Address,
         };
 
+    public static UserShortDto ToUserShortDto(this User user)
+        => new()
+        {
+            Id = user.Id,
+            FullName = user.FullName ?? user.Email,
+        };
+
     public static SurveyDto ToSurveyDto(this Survey survey)
         => new()
         {

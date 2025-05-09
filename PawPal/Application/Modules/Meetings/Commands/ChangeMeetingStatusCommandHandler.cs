@@ -1,0 +1,22 @@
+﻿namespace Application.Modules.Meetings.Commands;
+
+public class ChangeMeetingStatusCommandHandler(IApplicationDbContext dbContext)
+    : IRequestHandler<ChangeMeetingStatusCommand, int>
+{
+    private readonly IApplicationDbContext _dbContext = dbContext;
+
+    public async Task<int> Handle(ChangeMeetingStatusCommand command, CancellationToken cancellationToken)
+    {
+        if (_dbContext.User?.Role is not Role.Admin)
+            throw new ForbiddenException();
+
+        var meeting = await _dbContext.Meetings
+            .FirstOrDefaultAsync(p => p.Id == command.MeetingId, cancellationToken)
+            ?? throw new NotFoundException($"Meeting with id {command.MeetingId} not found");
+
+        meeting.Status = command.Status!.Value;
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return meeting.Id;
+    }
+}

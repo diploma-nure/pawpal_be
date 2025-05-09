@@ -1,8 +1,8 @@
 ﻿namespace Application.Modules.Applications.Commands;
 
-public class ChangeApplicationStatusCommand(int applicationId) : IRequest<int>
+public class ChangeApplicationStatusCommand : IRequest<int>
 {
-    public int ApplicationId { get; set; } = applicationId;
+    public int ApplicationId { get; set; }
 
     public ApplicationStatus? Status { get; set; }
 }

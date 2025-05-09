@@ -1,6 +1,6 @@
 ﻿namespace Application.Modules.Pets.Queries;
 
-public class GetPetByIdQuery(int id) : IRequest<PetDto>
+public class GetPetByIdQuery(int petId) : IRequest<PetDto>
 {
-    public int Id { get; set; } = id;
+    public int PetId { get; set; } = petId;
 }

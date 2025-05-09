@@ -15,7 +15,7 @@ public class GetApplicationsFilteredQueryHandler(IApplicationDbContext dbContext
             .OrderByDescending(a => a.CreatedAt)
             .AsQueryable();
 
-        if (_dbContext.User!.Role is Role.User)
+        if (_dbContext.User?.Role is Role.User)
             applications = applications.Where(a => a.UserId == _dbContext.User!.Id);
 
         applications = ApplyFiltering(applications, query.Statuses);

@@ -8,13 +8,7 @@ public class ApplicationInListDto
 
     public DateTime CreatedAt { get; set; }
 
-    public int UserId { get; set; }
+    public UserShortDto User { get; set; }
 
-    public string UserFullName { get; set; }
-
-    public int PetId { get; set; }
-
-    public string PetName { get; set; }
-
-    public string? PetPictureUrl { get; set; }
+    public PetShortDto Pet { get; set; }
 }

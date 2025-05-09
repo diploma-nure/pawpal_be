@@ -8,10 +8,13 @@ public static class ApplicationMappings
             Id = application.Id,
             Status = application.Status,
             CreatedAt = application.CreatedAt,
-            UserId = application.UserId,
-            UserFullName = application.User.FullName ?? application.User.Email,
-            PetId = application.PetId,
-            PetName = application.Pet.Name,
-            PetPictureUrl = application.Pet.Pictures?.OrderBy(p => p.Order).FirstOrDefault()?.Url,
+            User = application.User.ToUserShortDto(),
+            Pet = application.Pet.ToPetShortDto(),
+        };
+
+    public static ApplicationShortDto ToApplicationShortDto(this PetApplication application)
+        => new()
+        {
+            Id = application.Id,
         };
 }

@@ -5,7 +5,7 @@ public sealed class GetPetByIdQueryValidator
 {
     public GetPetByIdQueryValidator()
     {
-        RuleFor(query => query.Id)
+        RuleFor(query => query.PetId)
             .NotEmpty();
     }
 }
