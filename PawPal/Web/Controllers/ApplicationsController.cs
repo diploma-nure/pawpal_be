@@ -15,4 +15,9 @@ public class ApplicationsController(IMediator mediator) : ControllerBase
     [Auth]
     public async Task<Result<int>> SubmitApplicationAsync([FromRoute] int petId, CancellationToken cancellationToken)
         => new(await _mediator.Send(new SubmitApplicationCommand(petId), cancellationToken));
+
+    [HttpPatch("status")]
+    [Auth([Constants.Roles.Admin])]
+    public async Task<Result<int>> ChangeApplicationStatusAsync([FromBody] ChangeApplicationStatusCommand command, CancellationToken cancellationToken)
+        => new(await _mediator.Send(command, cancellationToken));
 }
