@@ -9,8 +9,8 @@ public class LikePetCommandHandler(IApplicationDbContext dbContext)
     {
         var pet = await _dbContext.Pets
             .AsNoTracking()
-            .FirstOrDefaultAsync(p => p.Id == command.Id, cancellationToken)
-            ?? throw new NotFoundException($"Pet with id {command.Id} not found");
+            .FirstOrDefaultAsync(p => p.Id == command.PetId, cancellationToken)
+            ?? throw new NotFoundException($"Pet with id {command.PetId} not found");
 
         var like = await _dbContext.PetLikes
             .AsNoTracking()

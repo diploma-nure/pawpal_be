@@ -38,4 +38,12 @@ public static class PetMappings
             Url = picture.Url,
             Order = picture.Order,
         };
+
+    public static PetShortDto ToPetShortDto(this Pet pet)
+        => new()
+        {
+            Id = pet.Id,
+            Name = pet.Name,
+            PictureUrl = pet.Pictures?.OrderBy(p => p.Order).FirstOrDefault()?.Url,
+        };
 }

@@ -1,6 +1,6 @@
 ﻿namespace Application.Modules.Pets.Commands;
 
-public class LikePetCommand(int id) : IRequest<int>
+public class LikePetCommand(int petId) : IRequest<int>
 {
-    public int Id { get; set; } = id;
+    public int PetId { get; set; } = petId;
 }

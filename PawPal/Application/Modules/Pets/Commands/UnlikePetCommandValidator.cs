@@ -5,7 +5,7 @@ public sealed class UnlikePetCommandValidator
 {
     public UnlikePetCommandValidator()
     {
-        RuleFor(command => command.Id)
+        RuleFor(command => command.PetId)
             .NotEmpty();
     }
 }

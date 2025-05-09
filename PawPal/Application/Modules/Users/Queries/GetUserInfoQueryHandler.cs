@@ -9,7 +9,7 @@ public class GetUserInfoQueryHandler(IApplicationDbContext dbContext)
     {
         UserInfoDto? result = null;
 
-        if (query.Id is null)
+        if (query.UserId is null)
         {
             result = (_dbContext.User ?? throw new UnauthorizedException()).ToUserInfoDto();
             return result;
@@ -18,8 +18,8 @@ public class GetUserInfoQueryHandler(IApplicationDbContext dbContext)
         var user = await _dbContext.Users
             .Include(u => u.ProfilePicture)
             .AsNoTracking()
-            .FirstOrDefaultAsync(u => u.Id == query.Id, cancellationToken)
-            ?? throw new NotFoundException($"User with id {query.Id} not found");
+            .FirstOrDefaultAsync(u => u.Id == query.UserId, cancellationToken)
+            ?? throw new NotFoundException($"User with id {query.UserId} not found");
 
         if (_dbContext.User!.Role is not Role.Admin && user.Id != _dbContext.User!.Id)
             throw new ForbiddenException();

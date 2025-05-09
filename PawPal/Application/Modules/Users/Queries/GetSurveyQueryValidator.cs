@@ -5,8 +5,12 @@ public sealed class GetSurveyQueryValidator
 {
     public GetSurveyQueryValidator()
     {
-        RuleFor(query => query.Id)
+        RuleFor(query => query.SurveyId)
             .GreaterThan(0)
-            .When(query => query.Id.HasValue);
+            .When(query => query.SurveyId.HasValue);
+
+        RuleFor(query => query.UserId)
+            .GreaterThan(0)
+            .When(query => query.UserId.HasValue);
     }
 }

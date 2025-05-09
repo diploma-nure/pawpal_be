@@ -1,5 +1,9 @@
 ﻿global using Application.Interfaces;
+global using Application.Modules.Applications.Dtos;
+global using Application.Modules.Applications.Mappings;
 global using Application.Modules.Auth.Dtos;
+global using Application.Modules.Meetings.Dtos;
+global using Application.Modules.Meetings.Mappings;
 global using Application.Modules.PetFeatures.Dtos;
 global using Application.Modules.PetFeatures.Mappings;
 global using Application.Modules.Pets.Dtos;

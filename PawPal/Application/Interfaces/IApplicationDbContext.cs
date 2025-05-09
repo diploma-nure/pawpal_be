@@ -22,5 +22,9 @@ public interface IApplicationDbContext
 
     DbSet<SurveyPetPreferences> SurveysPetPreferences { get; set; }
 
+    DbSet<PetApplication> Applications { get; set; }
+
+    DbSet<Meeting> Meetings { get; set; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

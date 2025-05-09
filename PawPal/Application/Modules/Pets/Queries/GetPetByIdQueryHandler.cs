@@ -11,8 +11,8 @@ public class GetPetByIdQueryHandler(IApplicationDbContext dbContext)
             .Include(p => p.Features)
             .Include(p => p.Pictures)
             .AsNoTracking()
-            .FirstOrDefaultAsync(p => p.Id == query.Id, cancellationToken)
-            ?? throw new NotFoundException($"Pet with id {query.Id} not found");
+            .FirstOrDefaultAsync(p => p.Id == query.PetId, cancellationToken)
+            ?? throw new NotFoundException($"Pet with id {query.PetId} not found");
 
         var result = pet.ToPetDto();
 

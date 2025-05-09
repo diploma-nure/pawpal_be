@@ -23,6 +23,12 @@ public static class DependencyInjection
 
         services.AddScoped<IMediaService, MediaService>();
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IMeetingService, MeetingService>();
+
+        services.AddSingleton(sp => {
+            var opts = sp.GetRequiredService<IOptions<LiveKitConfig>>().Value;
+            return new RoomServiceClient(opts.Url, opts.ApiKey, opts.ApiSecret);
+        });
 
         return services;
     }
