@@ -16,6 +16,21 @@ public static class PetMappings
             PictureUrl = pet.Pictures?.OrderBy(p => p.Order).FirstOrDefault()?.Url,
         };
 
+    public static PetInListDto ToPetInListDto(this Pet pet, decimal matchPercentage)
+        => new()
+        {
+            Id = pet.Id,
+            Name = pet.Name,
+            Species = pet.Species,
+            Gender = pet.Gender,
+            Size = pet.Size,
+            Age = pet.Age,
+            HasSpecialNeeds = pet.HasSpecialNeeds,
+            Description = pet.Description,
+            PictureUrl = pet.Pictures?.OrderBy(p => p.Order).FirstOrDefault()?.Url,
+            MatchPercentage = matchPercentage,
+        };
+
     public static PetDto ToPetDto(this Pet pet)
         => new()
         {

@@ -15,6 +15,10 @@ public class PetsController(IMediator mediator) : ControllerBase
     public async Task<Result<PaginatedListDto<PetInListDto>>> GetPetsFilteredAsync([FromQuery] GetPetsFilteredQuery query, CancellationToken cancellationToken)
         => new(await _mediator.Send(query, cancellationToken));
 
+    [HttpGet("recommended")]
+    public async Task<Result<PaginatedListDto<PetInListDto>>> GetRecommendedPetsAsync([FromQuery] GetRecommendedPetsQuery query, CancellationToken cancellationToken)
+        => new(await _mediator.Send(query, cancellationToken));
+
     [HttpGet("{id:int}")]
     public async Task<Result<PetDto>> GetPetByIdAsync([FromRoute] int id, CancellationToken cancellationToken)
         => new(await _mediator.Send(new GetPetByIdQuery(id), cancellationToken));

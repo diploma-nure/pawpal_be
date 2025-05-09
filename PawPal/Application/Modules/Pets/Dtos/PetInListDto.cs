@@ -19,4 +19,6 @@ public class PetInListDto
     public string? Description { get; set; }
 
     public string? PictureUrl { get; set; }
+
+    public decimal? MatchPercentage { get; set; }
 }

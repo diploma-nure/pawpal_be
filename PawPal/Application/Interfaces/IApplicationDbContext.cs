@@ -26,5 +26,7 @@ public interface IApplicationDbContext
 
     DbSet<Meeting> Meetings { get; set; }
 
+    IQueryable<TResult> SqlQueryRaw<TResult>(string sql, params object[] parameters);
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

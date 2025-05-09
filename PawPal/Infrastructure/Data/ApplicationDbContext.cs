@@ -29,6 +29,9 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public DbSet<Meeting> Meetings { get; set; }
 
+    public IQueryable<TResult> SqlQueryRaw<TResult>(string sql, params object[] parameters)
+        => Database.SqlQueryRaw<TResult>(sql, parameters);
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
