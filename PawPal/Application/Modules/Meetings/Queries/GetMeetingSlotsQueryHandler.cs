@@ -9,6 +9,7 @@ public class GetMeetingSlotsQueryHandler(IApplicationDbContext dbContext)
     {
         var globalStartDate = query.StartDate!.Value.ToUniversalTime();
         var globalEndDate = query.EndDate!.Value.ToUniversalTime();
+        var currentDate = DateTime.UtcNow;
 
         var result = new List<DaySlotDto>();
         var workDayStartTime = new TimeOnly(7, 0);
@@ -47,7 +48,12 @@ public class GetMeetingSlotsQueryHandler(IApplicationDbContext dbContext)
             for (var time = workDayStartTime; time <= workDayEndTime; time = time.AddHours(1))
             {
                 var isAvailable = false;
-                if (admins.Any(a => !a.Meetings.Any(m => m.Start.Date == date.Date && m.Start.TimeOfDay > time.ToTimeSpan() && m.End.TimeOfDay < time.AddHours(1).ToTimeSpan())))
+
+                if (date.Date < currentDate.Date)
+                    continue;
+                else if (date.Date == currentDate.Date && time.ToTimeSpan() < currentDate.TimeOfDay)
+                    isAvailable = false;
+                else if (admins.Any(a => !a.Meetings.Any(m => m.Start.Date == date.Date && m.Start.TimeOfDay > time.ToTimeSpan() && m.End.TimeOfDay < time.AddHours(1).ToTimeSpan())))
                     isAvailable = true;
 
                 daySlot.TimeSlots.Add(new TimeSlotDto() { Time = time, IsAvailable = isAvailable });
