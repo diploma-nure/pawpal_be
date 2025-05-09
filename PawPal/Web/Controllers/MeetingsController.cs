@@ -1,3 +1,5 @@
+using Application.Modules.Meetings.Commands;
+
 namespace Web.Controllers;
 
 [ApiController]
@@ -10,4 +12,9 @@ public class MeetingsController(IMediator mediator) : ControllerBase
     [Auth]
     public async Task<Result<List<DaySlotDto>>> GetMeetingSlotsAsync([FromQuery] GetMeetingSlotsQuery query, CancellationToken cancellationToken)
         => new(await _mediator.Send(query, cancellationToken));
+
+    [HttpPost("schedule")]
+    [Auth([Constants.Roles.User])]
+    public async Task<Result<int>> ScheduleMeetingAsync([FromBody] ScheduleMeetingCommand command, CancellationToken cancellationToken)
+        => new(await _mediator.Send(command, cancellationToken));
 }

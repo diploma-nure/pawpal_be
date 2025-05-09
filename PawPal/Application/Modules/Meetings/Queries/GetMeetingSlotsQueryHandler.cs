@@ -7,8 +7,8 @@ public class GetMeetingSlotsQueryHandler(IApplicationDbContext dbContext)
 
     public async Task<List<DaySlotDto>> Handle(GetMeetingSlotsQuery query, CancellationToken cancellationToken)
     {
-        var globalStartDate = query.StartDate!.Value.ToUniversalTime();
-        var globalEndDate = query.EndDate!.Value.ToUniversalTime();
+        var globalStartDate = query.StartDate!.Value.ToNormalizedTime();
+        var globalEndDate = query.EndDate!.Value.ToNormalizedTime();
         var currentDate = DateTime.UtcNow;
 
         var result = new List<DaySlotDto>();
@@ -45,15 +45,18 @@ public class GetMeetingSlotsQueryHandler(IApplicationDbContext dbContext)
                 continue;
             }
 
-            for (var time = workDayStartTime; time <= workDayEndTime; time = time.AddHours(1))
+            for (var time = workDayStartTime; time < workDayEndTime; time = time.AddHours(1))
             {
                 var isAvailable = false;
+
+                var startDate = date.ToDateWithTime(time);
+                var endDate = startDate.AddHours(1);
 
                 if (date.Date < currentDate.Date)
                     continue;
                 else if (date.Date == currentDate.Date && time.ToTimeSpan() < currentDate.TimeOfDay)
                     isAvailable = false;
-                else if (admins.Any(a => !a.Meetings.Any(m => m.Start.Date == date.Date && m.Start.TimeOfDay > time.ToTimeSpan() && m.End.TimeOfDay < time.AddHours(1).ToTimeSpan())))
+                else if (admins.Any(a => a.Meetings.All(m => !DateTimeHelper.AreTimesConflicting(startDate, endDate, m.Start, m.End))))
                     isAvailable = true;
 
                 daySlot.TimeSlots.Add(new TimeSlotDto() { Time = time, IsAvailable = isAvailable });

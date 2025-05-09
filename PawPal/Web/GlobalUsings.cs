@@ -6,6 +6,7 @@ global using Application.Modules.Applications.Dtos;
 global using Application.Modules.Applications.Queries;
 global using Application.Modules.Auth.Commands;
 global using Application.Modules.Auth.Dtos;
+global using Application.Modules.Meetings.Commands;
 global using Application.Modules.Meetings.Dtos;
 global using Application.Modules.Meetings.Queries;
 global using Application.Modules.PetFeatures.Dtos;

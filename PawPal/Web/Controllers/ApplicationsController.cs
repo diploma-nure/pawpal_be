@@ -12,7 +12,7 @@ public class ApplicationsController(IMediator mediator) : ControllerBase
         => new(await _mediator.Send(query, cancellationToken));
 
     [HttpPost("submit/{petId:int}")]
-    [Auth]
+    [Auth([Constants.Roles.User])]
     public async Task<Result<int>> SubmitApplicationAsync([FromRoute] int petId, CancellationToken cancellationToken)
         => new(await _mediator.Send(new SubmitApplicationCommand(petId), cancellationToken));
 
