@@ -7,6 +7,8 @@ public class MeetingEntityConfiguration : IEntityTypeConfiguration<Meeting>
         builder.ToTable("meetings");
 
         builder.Property(m => m.Id).HasColumnName("meeting_id").IsRequired();
+        builder.Property(m => m.Start).HasColumnName("start").IsRequired();
+        builder.Property(m => m.End).HasColumnName("end").IsRequired();
         builder.Property(m => m.Status).HasColumnName("status").IsRequired();
         builder.Property(m => m.AdminId).HasColumnName("admin_id").IsRequired();
         builder.Property(m => m.ApplicationId).HasColumnName("application_id").IsRequired();
