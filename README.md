@@ -21,3 +21,4 @@
 - MediatR
 - FluentValidation
 - JWT
+- LiveKit API
