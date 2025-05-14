@@ -15,6 +15,7 @@ public class PictureEntityConfiguration : IEntityTypeConfiguration<Picture>
         builder.Property(p => p.PetId).HasColumnName("pet_id");
         builder.Property(p => p.CreatedAt).HasColumnName("created_at").IsRequired();
         builder.Property(p => p.UpdatedAt).HasColumnName("updated_at").IsRequired();
+        builder.Property(p => p.DeletedAt).HasColumnName("deleted_at");
 
         builder.HasKey(p => p.Id).HasName("PK_pictures");
     }

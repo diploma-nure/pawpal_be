@@ -12,6 +12,7 @@ public class PetApplicationEntityConfiguration : IEntityTypeConfiguration<PetApp
         builder.Property(a => a.PetId).HasColumnName("pet_id").IsRequired();
         builder.Property(a => a.CreatedAt).HasColumnName("created_at").IsRequired();
         builder.Property(a => a.UpdatedAt).HasColumnName("updated_at").IsRequired();
+        builder.Property(a => a.DeletedAt).HasColumnName("deleted_at");
 
         builder.HasOne(a => a.Meeting)
             .WithOne(m => m.Application)

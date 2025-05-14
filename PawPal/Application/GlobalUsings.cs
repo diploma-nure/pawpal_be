@@ -20,6 +20,7 @@ global using Application.Utils.Enums;
 global using Application.Utils.Extensions;
 global using Application.Utils.Helpers;
 global using Application.Utils.Validators;
+global using Domain.Common;
 global using Domain.Entities;
 global using Domain.Enums;
 global using Domain.Exceptions;

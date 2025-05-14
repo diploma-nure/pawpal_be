@@ -8,9 +8,10 @@ public class GetPetsFilteredQueryHandler(IApplicationDbContext dbContext)
     public async Task<PaginatedListDto<PetInListDto>> Handle(GetPetsFilteredQuery query, CancellationToken cancellationToken)
     {
         var pets = _dbContext.Pets
+            .AsNoTracking()
             .Include(p => p.Features)
             .Include(p => p.Pictures)
-            .AsNoTracking();
+            .FilterSoftDeleted();
 
         pets = ApplyFiltering(pets, query.Species);
         pets = ApplyFiltering(pets, query.Sizes);

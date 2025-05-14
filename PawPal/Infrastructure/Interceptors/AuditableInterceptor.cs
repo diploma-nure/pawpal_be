@@ -14,20 +14,28 @@ public class AuditableInterceptor : SaveChangesInterceptor
         return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 
-    public void UpdateEntities(DbContext? dbContext)
+    private static void UpdateEntities(DbContext? dbContext)
     {
         if (dbContext == null) return;
 
         foreach (var entry in dbContext.ChangeTracker.Entries<IAuditable>())
         {
+            var utcNow = DateTime.UtcNow;
             if (entry.State is EntityState.Added or EntityState.Modified)
             {
-                var utcNow = DateTime.UtcNow;
-
                 if (entry.State is EntityState.Added)
                     entry.Entity.CreatedAt = utcNow;
 
                 entry.Entity.UpdatedAt = utcNow;
+            }
+        }
+
+        foreach (var entry in dbContext.ChangeTracker.Entries<ISoftDeletable>())
+        {
+            if (entry.State == EntityState.Deleted)
+            {
+                entry.Entity.DeletedAt = DateTime.UtcNow;
+                entry.State = EntityState.Unchanged;
             }
         }
     }

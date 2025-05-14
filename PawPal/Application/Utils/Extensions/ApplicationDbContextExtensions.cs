@@ -9,4 +9,7 @@ public static class ApplicationDbContextExtensions
 
         return query.Skip((page.Value - 1) * pageSize.Value).Take(pageSize.Value);
     }
+
+    public static IQueryable<T> FilterSoftDeleted<T>(this IQueryable<T> query) where T : ISoftDeletable
+        => query.Where(x => x.DeletedAt == null);
 }

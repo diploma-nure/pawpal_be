@@ -10,6 +10,7 @@ public class PetFeatureEntityConfiguration : IEntityTypeConfiguration<PetFeature
         builder.Property(pf => pf.Feature).HasColumnName("feature").IsRequired();
         builder.Property(pf => pf.CreatedAt).HasColumnName("created_at").IsRequired();
         builder.Property(pf => pf.UpdatedAt).HasColumnName("updated_at").IsRequired();
+        builder.Property(pf => pf.DeletedAt).HasColumnName("deleted_at");
 
         builder.HasKey(pf => pf.Id).HasName("pk_pet_features");
     }
