@@ -10,10 +10,13 @@ public class DeletePetCommandHandler(IApplicationDbContext dbContext)
         if (_dbContext.User?.Role is not Role.Admin)
             throw new ForbiddenException();
 
-        var pet = await _dbContext.Pets.FirstOrDefaultAsync(p => p.Id == command.PetId, cancellationToken)
+        var pet = await _dbContext.Pets
+            .Include(p => p.Pictures)
+            .FirstOrDefaultAsync(p => p.Id == command.PetId, cancellationToken)
             ?? throw new NotFoundException($"Pet with id {command.PetId} not found");
 
-        _dbContext.Pets.Remove(pet);
+        pet.SoftDelete();
+        pet.Pictures.ForEach(p => p.SoftDelete());
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         return pet.Id;

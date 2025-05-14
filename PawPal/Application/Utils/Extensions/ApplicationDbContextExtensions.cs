@@ -12,4 +12,7 @@ public static class ApplicationDbContextExtensions
 
     public static IQueryable<T> FilterSoftDeleted<T>(this IQueryable<T> query) where T : ISoftDeletable
         => query.Where(x => x.DeletedAt == null);
+
+    public static void SoftDelete<T>(this T entity) where T : ISoftDeletable
+        => entity.DeletedAt = DateTime.UtcNow;
 }

@@ -29,14 +29,5 @@ public class AuditableInterceptor : SaveChangesInterceptor
                 entry.Entity.UpdatedAt = utcNow;
             }
         }
-
-        foreach (var entry in dbContext.ChangeTracker.Entries<ISoftDeletable>())
-        {
-            if (entry.State == EntityState.Deleted)
-            {
-                entry.Entity.DeletedAt = DateTime.UtcNow;
-                entry.State = EntityState.Unchanged;
-            }
-        }
     }
 }
