@@ -9,6 +9,7 @@ public class GetPetFeaturesQueryHandler(IApplicationDbContext dbContext)
     {
         var features = await _dbContext.PetFeatures
             .AsNoTracking()
+            .FilterSoftDeleted()
             .OrderBy(f => f.Feature)
             .ToListAsync(cancellationToken);
 
