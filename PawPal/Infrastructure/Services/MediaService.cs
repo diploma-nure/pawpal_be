@@ -26,4 +26,13 @@ public class MediaService(IWebHostEnvironment env, IHttpContextAccessor httpCont
         var url = $"{_request.Scheme}://{_request.Host}/{Constants.Media.PetsFolderPath}/{petId}/{Constants.Media.PetsPicturesFolderPath}/{uniqueFileName}";
         return (url, filePath);
     }
+
+    public void DeletePicture(Picture picture)
+    {
+        if (picture.Source is FileSource.Internal)
+        {
+            if (File.Exists(picture.Path))
+                File.Delete(picture.Path);
+        }
+    }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities;
 
-public class PetApplication : IAuditable
+public class PetApplication : IAuditable, ISoftDeletable
 {
     public int Id { get; set; }
 
@@ -19,4 +19,6 @@ public class PetApplication : IAuditable
     public DateTime CreatedAt { get; set; }
 
     public DateTime UpdatedAt { get; set; }
+
+    public DateTime? DeletedAt { get; set; }
 }

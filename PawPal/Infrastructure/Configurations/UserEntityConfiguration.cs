@@ -16,6 +16,7 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.PasswordRecoveryCode).HasColumnName("password_recovery_code");
         builder.Property(u => u.CreatedAt).HasColumnName("created_at").IsRequired();
         builder.Property(u => u.UpdatedAt).HasColumnName("updated_at").IsRequired();
+        builder.Property(u => u.DeletedAt).HasColumnName("deleted_at");
 
         builder.HasOne(u => u.Survey)
             .WithOne(s => s.User)

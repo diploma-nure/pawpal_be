@@ -14,7 +14,7 @@ public class AddPetCommandHandler(IApplicationDbContext dbContext, IMediaService
 
         var pet = new Pet
         {
-            Name = command.Name!,
+            Name = command.Name,
             Species = command.Species!.Value,
             Gender = command.Gender!.Value,
             Size = command.Size!.Value,
@@ -35,7 +35,7 @@ public class AddPetCommandHandler(IApplicationDbContext dbContext, IMediaService
             var pictures = new List<Picture>();
             foreach (var picture in command.Pictures)
             {
-                (var url, var path) = await _mediaService.UploadPetPictureAsync(pet.Id, picture);
+                var (url, path) = await _mediaService.UploadPetPictureAsync(pet.Id, picture);
                 pictures.Add(new()
                 {
                     Source = FileSource.Internal,

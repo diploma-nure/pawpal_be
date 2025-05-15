@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities;
 
-public class Picture : IAuditable
+public class Picture : IAuditable, ISoftDeletable
 {
     public int Id { get; set; }
 
@@ -23,4 +23,6 @@ public class Picture : IAuditable
     public DateTime CreatedAt { get; set; }
 
     public DateTime UpdatedAt { get; set; }
+
+    public DateTime? DeletedAt { get; set; }
 }

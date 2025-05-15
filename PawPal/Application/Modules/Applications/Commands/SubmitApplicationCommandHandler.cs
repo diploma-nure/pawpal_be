@@ -12,6 +12,7 @@ public class SubmitApplicationCommandHandler(IApplicationDbContext dbContext)
 
         var pet = await _dbContext.Pets
             .AsNoTracking()
+            .FilterSoftDeleted()
             .FirstOrDefaultAsync(p => p.Id == command.PetId, cancellationToken)
             ?? throw new NotFoundException($"Pet with id {command.PetId} not found");
 

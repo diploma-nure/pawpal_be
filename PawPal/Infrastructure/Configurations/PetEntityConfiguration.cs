@@ -18,6 +18,7 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(p => p.Description).HasColumnName("description");
         builder.Property(p => p.CreatedAt).HasColumnName("created_at").IsRequired();
         builder.Property(p => p.UpdatedAt).HasColumnName("updated_at").IsRequired();
+        builder.Property(p => p.DeletedAt).HasColumnName("deleted_at");
 
         builder.HasMany(p => p.Features)
             .WithMany(f => f.Pets)

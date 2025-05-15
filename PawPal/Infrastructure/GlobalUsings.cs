@@ -2,6 +2,7 @@
 global using Application.Utils.Configs;
 global using Domain.Common;
 global using Domain.Entities;
+global using Domain.Enums;
 global using Domain.Exceptions;
 global using Infrastructure.Data;
 global using Infrastructure.Interceptors;
