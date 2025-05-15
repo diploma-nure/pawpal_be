@@ -1,10 +1,13 @@
 ﻿namespace Application.Modules.Pets.Commands;
 
 public sealed class UpdatePetCommandValidator
-    : AbstractValidator<AddPetCommand>
+    : AbstractValidator<UpdatePetCommand>
 {
     public UpdatePetCommandValidator()
     {
+        RuleFor(command => command.Id)
+           .NotEmpty();
+
         RuleFor(command => command.Species)
             .IsInEnum()
             .When(command => command.Species is not null);

@@ -14,7 +14,7 @@ public class AddPetCommandHandler(IApplicationDbContext dbContext, IMediaService
 
         var pet = new Pet
         {
-            Name = command.Name!,
+            Name = command.Name,
             Species = command.Species!.Value,
             Gender = command.Gender!.Value,
             Size = command.Size!.Value,

@@ -19,7 +19,7 @@ public class UpdatePetCommandHandler(IApplicationDbContext dbContext, IMediaServ
             .FirstOrDefaultAsync(p => p.Id == command.Id, cancellationToken)
             ?? throw new NotFoundException($"Pet with id {command.Id} not found");
 
-        if (command.Name is not null)
+        if (!string.IsNullOrEmpty(command.Name))
             pet.Name = command.Name;
         if (command.Species.HasValue)
             pet.Species = command.Species.Value;

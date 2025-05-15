@@ -2,7 +2,7 @@
 
 public class AddPetCommand : IRequest<int>
 {
-    public string? Name { get; set; }
+    public string Name { get; set; }
 
     public PetSpecies? Species { get; set; }
 

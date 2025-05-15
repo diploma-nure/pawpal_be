@@ -1,4 +1,4 @@
-﻿namespace Application.Modules.PetFeatures.Query;
+﻿namespace Application.Modules.PetFeatures.Queries;
 
 public class GetPetFeaturesQueryHandler(IApplicationDbContext dbContext)
     : IRequestHandler<GetPetFeaturesQuery, List<PetFeatureDto>>
