@@ -6,6 +6,7 @@ public sealed class SendPasswordRecoveryCodeCommandValidator
     public SendPasswordRecoveryCodeCommandValidator()
     {
         RuleFor(command => command.Email)
-            .NotEmpty();
+            .NotEmpty()
+            .Matches(Constants.Patterns.Email);
     }
 }

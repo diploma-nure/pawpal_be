@@ -1,11 +1,11 @@
 ﻿namespace Application.Modules.PetFeatures.Queries;
 
 public class GetPetFeaturesQueryHandler(IApplicationDbContext dbContext)
-    : IRequestHandler<GetPetFeaturesQuery, List<PetFeatureDto>>
+    : IRequestHandler<GetPetFeaturesQuery, List<PetFeatureInListDto>>
 {
     private readonly IApplicationDbContext _dbContext = dbContext;
 
-    public async Task<List<PetFeatureDto>> Handle(GetPetFeaturesQuery query, CancellationToken cancellationToken)
+    public async Task<List<PetFeatureInListDto>> Handle(GetPetFeaturesQuery query, CancellationToken cancellationToken)
     {
         var features = await _dbContext.PetFeatures
             .AsNoTracking()

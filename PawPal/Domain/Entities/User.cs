@@ -28,6 +28,8 @@ public class User : IAuditable, ISoftDeletable
 
     public Survey Survey { get; set; }
 
+    public List<Comment> Comments { get; set; }
+
     public DateTime CreatedAt { get; set; }
 
     public DateTime UpdatedAt { get; set; }

@@ -18,6 +18,7 @@ public static class UserMappings
         {
             Id = user.Id,
             FullName = user.FullName ?? user.Email,
+            ProfilePictureUrl = user.ProfilePicture?.Url,
         };
 
     public static SurveyDto ToSurveyDto(this Survey survey)

@@ -26,4 +26,10 @@ public static class Constants
         public const string PetsFolderPath = "pets";
         public const string PetsPicturesFolderPath = "pictures";
     }
+
+    public static class Patterns
+    {
+        public const string PhoneNumber = @"^\+?[1-9]\d{1,14}$";
+        public const string Email = @"^(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*)@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,})$";
+    }
 }

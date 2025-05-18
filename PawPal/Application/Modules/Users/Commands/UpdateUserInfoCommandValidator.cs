@@ -10,7 +10,7 @@ public sealed class UpdateUserInfoCommandValidator
             .When(command => command.FullName is not null);
 
         RuleFor(command => command.PhoneNumber)
-            .Matches(@"^\+?[1-9]\d{1,14}$")
+            .Matches(Constants.Patterns.PhoneNumber)
             .When(command => command.PhoneNumber is not null);
 
         RuleFor(command => command.Address)

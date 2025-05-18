@@ -6,7 +6,8 @@ public sealed class LoginCommandValidator
     public LoginCommandValidator()
     {
         RuleFor(command => command.Email)
-            .NotEmpty();
+            .NotEmpty()
+            .Matches(Constants.Patterns.Email);
 
         RuleFor(command => command.Password)
             .NotEmpty();
