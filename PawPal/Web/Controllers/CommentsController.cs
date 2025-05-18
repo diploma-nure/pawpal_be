@@ -2,7 +2,7 @@ namespace Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CommentController(IMediator mediator) : ControllerBase
+public class CommentsController(IMediator mediator) : ControllerBase
 {
     private readonly IMediator _mediator = mediator;
 
