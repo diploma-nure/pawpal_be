@@ -43,6 +43,9 @@ public class PetEntityConfiguration : IEntityTypeConfiguration<Pet>
             .WithOne(p => p.Pet)
             .HasForeignKey(p => p.PetId);
 
+        builder.HasMany(p => p.Comments)
+            .WithOne(c => c.Pet)
+            .HasForeignKey(c => c.PetId);
 
         builder.HasKey(p => p.Id).HasName("PK_pets");
     }

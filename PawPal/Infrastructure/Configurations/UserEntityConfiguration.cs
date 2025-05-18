@@ -34,6 +34,10 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
             .WithOne(m => m.Admin)
             .HasForeignKey(m => m.AdminId);
 
+        builder.HasMany(u => u.Comments)
+            .WithOne(c => c.User)
+            .HasForeignKey(c => c.UserId);
+
         builder.HasKey(u => u.Id).HasName("PK_users");
     }
 }

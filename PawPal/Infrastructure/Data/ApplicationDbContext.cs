@@ -29,6 +29,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public DbSet<Meeting> Meetings { get; set; }
 
+    public DbSet<Comment> Comments { get; set; }
+
     public IQueryable<TResult> SqlQueryRaw<TResult>(string sql, params object[] parameters)
         => Database.SqlQueryRaw<TResult>(sql, parameters);
 

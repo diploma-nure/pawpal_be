@@ -2,7 +2,7 @@
 
 public static class PetFeatureMappings
 {
-    public static PetFeatureDto ToPetInListDto(this PetFeature feature)
+    public static PetFeatureInListDto ToPetInListDto(this PetFeature feature)
         => new()
         {
             Id = feature.Id,

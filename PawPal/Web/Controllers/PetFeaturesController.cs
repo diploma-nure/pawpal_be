@@ -7,7 +7,7 @@ public class PetFeaturesController(IMediator mediator) : ControllerBase
     private readonly IMediator _mediator = mediator;
 
     [HttpGet]
-    public async Task<Result<List<PetFeatureDto>>> GetPetFeaturesAsync(CancellationToken cancellationToken)
+    public async Task<Result<List<PetFeatureInListDto>>> GetPetFeaturesAsync(CancellationToken cancellationToken)
         => new(await _mediator.Send(new GetPetFeaturesQuery(), cancellationToken));
 
     [HttpPost("add")]

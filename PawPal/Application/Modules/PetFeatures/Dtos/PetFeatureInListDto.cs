@@ -1,6 +1,6 @@
 ﻿namespace Application.Modules.PetFeatures.Dtos;
 
-public class PetFeatureDto
+public class PetFeatureInListDto
 {
     public int Id { get; set; }
 
