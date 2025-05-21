@@ -7,5 +7,8 @@ public sealed class UpdatePetFeatureCommandValidator
     {
         RuleFor(command => command.Id)
            .NotEmpty();
+
+        RuleFor(command => command.Feature)
+           .NotEmpty();
     }
 }
