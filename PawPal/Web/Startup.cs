@@ -1,4 +1,4 @@
-﻿namespace Infrastructure;
+﻿namespace Web;
 
 public static class Startup
 {
@@ -63,6 +63,7 @@ public static class Startup
         services.Configure<AuthConfig>(configuration.GetSection(AuthConfig.Auth));
         services.Configure<EmailConfig>(configuration.GetSection(EmailConfig.Email));
         services.Configure<LiveKitConfig>(configuration.GetSection(LiveKitConfig.LiveKit));
+        services.Configure<StorageConfig>(configuration.GetSection(StorageConfig.Storage));
 
         return services;
     }

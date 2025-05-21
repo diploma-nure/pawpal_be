@@ -2,7 +2,16 @@
 
 public interface IMediaService
 {
-    Task<(string Url, string Path)> UploadPetPictureAsync(int petId, IFormFile file);
+    Task<UploadFileResponse> UploadPetPictureAsync(int petId, IFormFile file);
 
-    void DeletePicture(Picture picture);
+    Task DeletePictureAsync(Picture picture);
+}
+
+public class UploadFileResponse
+{
+    public string Url { get; set; }
+
+    public string Path { get; set; }
+
+    public FileSource Source { get; set; }
 }

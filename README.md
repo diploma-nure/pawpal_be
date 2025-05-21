@@ -22,3 +22,4 @@
 - FluentValidation
 - JWT
 - LiveKit API
+- AWSSDK.S3

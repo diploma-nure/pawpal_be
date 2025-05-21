@@ -33,6 +33,7 @@ global using Microsoft.AspNetCore.Mvc.Filters;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.OpenApi.Models;
 global using System.Text.Json;
+global using Web;
 global using Web.Attributes;
 global using Web.Middleware;
 global using Web.Models;
