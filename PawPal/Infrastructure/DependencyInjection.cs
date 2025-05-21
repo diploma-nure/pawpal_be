@@ -15,6 +15,8 @@ public static class DependencyInjection
         {
             options.AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
             options.UseNpgsql(dataSource);
+            options.EnableDetailedErrors()
+                .EnableSensitiveDataLogging();
         });
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
