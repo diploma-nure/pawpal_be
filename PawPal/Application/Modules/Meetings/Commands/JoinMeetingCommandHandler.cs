@@ -38,15 +38,15 @@ public class JoinMeetingCommandHandler(IApplicationDbContext dbContext, IMeeting
             meeting = application.Meeting;
         }
 
-        if (meeting.AdminId != _dbContext.User!.Id && application.UserId != _dbContext.User.Id)
-            throw new ForbiddenException();
-
         var currentDate = DateTime.UtcNow;
         if (currentDate < meeting.Start.AddMinutes(5))
             throw new ConflictException("Meeting cannot be joined yet");
 
         if (currentDate > meeting.End)
             throw new ConflictException("Meeting has already ended and cannot be joined");
+
+        if (meeting.AdminId != _dbContext.User!.Id && application.UserId != _dbContext.User.Id)
+            throw new ForbiddenException();
 
         var roomName = await _meetingService.GetRoomAsync(meeting.Id);
         var (Url, RoomName, Token) = _meetingService.GenerateJoinInfo(roomName, _dbContext.User);

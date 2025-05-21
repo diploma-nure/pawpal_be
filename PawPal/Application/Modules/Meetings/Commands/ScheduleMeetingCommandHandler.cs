@@ -20,14 +20,20 @@ public class ScheduleMeetingCommandHandler(IApplicationDbContext dbContext)
         if (application.Status is not ApplicationStatus.MeetingApproved)
             throw new ConflictException($"Application must be in status {ApplicationStatus.MeetingApproved} to schedule a meeting");
 
+        var workDayStartTime = new TimeOnly(7, 0);
+        var workDayEndTime = new TimeOnly(16, 0);
+
         var start = command.Start!.Value.ToNormalizedTime();
         var end = command.End!.Value.ToNormalizedTime();
+
+        if (start.TimeOfDay < workDayStartTime.ToTimeSpan() || end.TimeOfDay > workDayEndTime.ToTimeSpan())
+            throw new ConflictException("Meeting is out of scheduled working time.");
 
         var currentDate = DateTime.UtcNow;
         if (start.Date < currentDate.Date || (start.Date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday))
             throw new ConflictException("Unable to schedule a meeting for this date");
 
-        if (start.TimeOfDay < currentDate.TimeOfDay)
+        if (start.Date == currentDate.Date && start.TimeOfDay < currentDate.TimeOfDay)
             throw new ConflictException("Unable to schedule a meeting for this time");
 
         var availableAdmin = await _dbContext.Users

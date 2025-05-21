@@ -15,13 +15,15 @@ public sealed class CompleteSurveyCommandValidator
             .NotNull();
 
         RuleFor(command => command.PlaceOfResidence)
-            .NotNull();
+            .NotNull()
+            .IsInEnum();
 
         RuleFor(command => command.HasSafeWalkingArea)
             .NotNull();
 
         RuleFor(command => command.PetsAllowedAtResidence)
-            .NotNull();
+            .NotNull()
+            .IsInEnum();
 
         RuleFor(command => command.HasOtherPets)
             .NotNull();
@@ -46,7 +48,8 @@ public sealed class CompleteSurveyCommandValidator
             .When(command => command.PreferredGenders is not null);
 
         RuleFor(command => command.DesiredActivityLevel)
-            .NotNull();
+            .NotNull()
+            .IsInEnum();
 
         RuleFor(command => command.ReadyForSpecialNeedsPet)
             .NotNull();
