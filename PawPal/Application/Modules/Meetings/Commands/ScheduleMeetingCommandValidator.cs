@@ -12,6 +12,10 @@ public sealed class ScheduleMeetingCommandValidator
             .NotEmpty();
 
         RuleFor(command => command.End)
-            .NotEmpty();
+            .NotEmpty()
+            .Must((command, end) =>
+                command.Start.HasValue && end.HasValue && end > command.Start
+            )
+            .WithMessage("End date must be after start date.");
     }
 }
