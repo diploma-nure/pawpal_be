@@ -11,6 +11,7 @@ public class DeletePetCommandHandler(IApplicationDbContext dbContext)
             throw new ForbiddenException();
 
         var pet = await _dbContext.Pets
+            .FilterSoftDeleted()
             .Include(p => p.Pictures)
             .FirstOrDefaultAsync(p => p.Id == command.PetId, cancellationToken)
             ?? throw new NotFoundException($"Pet with id {command.PetId} not found");
