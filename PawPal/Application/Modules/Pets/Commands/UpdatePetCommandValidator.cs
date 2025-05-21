@@ -23,5 +23,12 @@ public sealed class UpdatePetCommandValidator
         RuleFor(command => command.Age)
             .IsInEnum()
             .When(command => command.Age is not null);
+
+        RuleFor(command => command.FeaturesIds)
+            .ForEach(feature => feature.NotEmpty());
+
+        RuleFor(command => command.Pictures)
+            .Must(pictures => pictures == null || pictures.All(p => p.File == null || p.File.ContentType.StartsWith("image/")))
+            .WithMessage("All uploaded files must be images.");
     }
 }

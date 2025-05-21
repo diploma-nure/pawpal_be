@@ -26,5 +26,12 @@ public sealed class AddPetCommandValidator
 
         RuleFor(command => command.HasSpecialNeeds)
             .NotNull();
+
+        RuleFor(command => command.FeaturesIds)
+            .ForEach(feature => feature.NotEmpty());
+
+        RuleFor(command => command.Pictures)
+            .Must(pictures => pictures == null || pictures.All(p => p.ContentType.StartsWith("image/")))
+            .WithMessage("All uploaded files must be images.");
     }
 }
