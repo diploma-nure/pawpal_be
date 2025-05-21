@@ -11,14 +11,24 @@ public class ScheduleMeetingCommandHandler(IApplicationDbContext dbContext)
             throw new ForbiddenException();
 
         var application = await _dbContext.Applications
+            .Include(a => a.Meeting)
             .FirstOrDefaultAsync(a => a.Id == command.ApplicationId, cancellationToken)
             ?? throw new NotFoundException($"Application with id {command.ApplicationId} not found");
 
         if (application.UserId != _dbContext.User.Id)
             throw new ForbiddenException("You are not allowed to schedule a meeting for this application");
 
-        if (application.Status is not ApplicationStatus.MeetingApproved)
-            throw new ConflictException($"Application must be in status {ApplicationStatus.MeetingApproved} to schedule a meeting");
+        if (application.Status is not ApplicationStatus.MeetingApproved && application.Status is not ApplicationStatus.MeetingScheduled)
+            throw new ConflictException($"Application must be in status {ApplicationStatus.MeetingApproved} or {ApplicationStatus.MeetingScheduled} to schedule a meeting");
+
+        var currentDate = DateTime.UtcNow;
+        if (application.Meeting is not null)
+        {
+            if (application.Meeting.End < currentDate)
+                throw new ConflictException("Meeting for this application cannot be rescheduled");
+
+            _dbContext.Meetings.Remove(application.Meeting);
+        }
 
         var workDayStartTime = new TimeOnly(7, 0);
         var workDayEndTime = new TimeOnly(16, 0);
@@ -27,9 +37,8 @@ public class ScheduleMeetingCommandHandler(IApplicationDbContext dbContext)
         var end = command.End!.Value.ToNormalizedTime();
 
         if (start.TimeOfDay < workDayStartTime.ToTimeSpan() || end.TimeOfDay > workDayEndTime.ToTimeSpan())
-            throw new ConflictException("Meeting is out of scheduled working time.");
+            throw new ConflictException("Meeting is out of scheduled working time");
 
-        var currentDate = DateTime.UtcNow;
         if (start.Date < currentDate.Date || (start.Date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday))
             throw new ConflictException("Unable to schedule a meeting for this date");
 
@@ -38,7 +47,7 @@ public class ScheduleMeetingCommandHandler(IApplicationDbContext dbContext)
 
         var availableAdmin = await _dbContext.Users
             .Where(a => a.Role == Role.Admin && a.Meetings.All(m => !((start >= m.Start && start < m.End) || (end <= m.End && end > m.Start))))
-            .OrderBy(a => a.Meetings.Count)
+            .OrderBy(a => a.Meetings.Where(m => m.Start > currentDate).Count())
             .FirstOrDefaultAsync(cancellationToken)
             ?? throw new ConflictException("No available admins for the selected time slot");
 
@@ -57,6 +66,6 @@ public class ScheduleMeetingCommandHandler(IApplicationDbContext dbContext)
 
         var testApplication = await _dbContext.Applications.Include(a => a.Meeting).FirstOrDefaultAsync(a => a.Id == command.ApplicationId, cancellationToken);
 
-        return application.Id;
+        return meeting.Id;
     }
 }

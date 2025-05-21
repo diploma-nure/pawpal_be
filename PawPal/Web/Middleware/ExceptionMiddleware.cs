@@ -36,10 +36,12 @@ public class ExceptionMiddleware(RequestDelegate next)
         }
     }
 
-    private Task HandleExceptionAsync(HttpContext context, string message, Exception exception, int statusCode = StatusCodes.Status400BadRequest, List<string>? errors = null)
+    private static Task HandleExceptionAsync(HttpContext context, string message, Exception exception, int statusCode = StatusCodes.Status400BadRequest, List<string>? errors = null)
     {
-        var envelope = new Result<object>(message, errors);
+        if (errors is null && exception.InnerException is not null)
+            errors = [exception.InnerException.Message];
 
+        var envelope = new Result<object>(message, errors);
         var result = JsonSerializer.Serialize(envelope);
 
         context.Response.ContentType = "application/json";
