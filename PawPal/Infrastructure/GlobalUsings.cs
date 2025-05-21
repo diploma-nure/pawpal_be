@@ -1,4 +1,8 @@
-﻿global using Application.Interfaces;
+﻿global using Amazon.Runtime;
+global using Amazon.S3;
+global using Amazon.S3.Model;
+global using Amazon.S3.Transfer;
+global using Application.Interfaces;
 global using Application.Utils.Configs;
 global using Domain.Common;
 global using Domain.Entities;
@@ -9,7 +13,6 @@ global using Infrastructure.Interceptors;
 global using Infrastructure.Services;
 global using Livekit.Server.Sdk.Dotnet;
 global using MailKit.Net.Smtp;
-global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Diagnostics;

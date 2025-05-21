@@ -30,6 +30,17 @@ public static class DependencyInjection
             return new RoomServiceClient(opts.Url, opts.ApiKey, opts.ApiSecret);
         });
 
+        services.AddSingleton<IAmazonS3>(sp => {
+            var opts = sp.GetRequiredService<IOptions<StorageConfig>>().Value;
+            var credentials = new BasicAWSCredentials(opts.AccessKey, opts.Secret);
+            var s3Config = new AmazonS3Config
+            {
+                ServiceURL = opts.Url,
+                ForcePathStyle = true
+            };
+            return new AmazonS3Client(credentials, s3Config);
+        });
+
         return services;
     }
 }

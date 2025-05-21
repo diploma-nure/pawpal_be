@@ -50,7 +50,7 @@ public class UpdatePetCommandHandler(IApplicationDbContext dbContext, IMediaServ
 
             foreach (var picture in removedPicturesIds)
             {
-                _mediaService.DeletePicture(picture);
+                await _mediaService.DeletePictureAsync(picture);
                 _dbContext.Pictures.Remove(picture);
             }
 
@@ -66,12 +66,12 @@ public class UpdatePetCommandHandler(IApplicationDbContext dbContext, IMediaServ
                 }
                 else if (dto.File is not null)
                 {
-                    var (url, path) = await _mediaService.UploadPetPictureAsync(pet.Id, dto.File);
+                    var response = await _mediaService.UploadPetPictureAsync(pet.Id, dto.File);
                     updatedPictures.Add(new()
                     {
-                        Source = FileSource.Internal,
-                        Url = url,
-                        Path = path,
+                        Source = response.Source,
+                        Url = response.Url,
+                        Path = response.Path,
                         Order = order++,
                     });
                 }

@@ -1,38 +1,58 @@
 ﻿namespace Infrastructure.Services;
 
-public class MediaService(IWebHostEnvironment env, IHttpContextAccessor httpContextAccessor) : IMediaService
+public class MediaService(IAmazonS3 s3client, IOptions<StorageConfig> storageConfigOptions) : IMediaService
 {
-    private readonly IWebHostEnvironment _env = env;
+    private readonly IAmazonS3 _s3Client = s3client;
 
-    private readonly HttpRequest _request = httpContextAccessor.HttpContext?.Request ?? throw new ArgumentNullException(nameof(httpContextAccessor.HttpContext));
+    private readonly StorageConfig _storageConfig = storageConfigOptions.Value;
 
-    public async Task<(string Url, string Path)> UploadPetPictureAsync(int petId, IFormFile file)
+    public async Task<UploadFileResponse> UploadPetPictureAsync(int petId, IFormFile file)
     {
-        if (file.Length <= 0)
+        if (file.Length == 0)
             throw new ConflictException($"File {file.FileName} is empty");
 
-        var uploadFolder = Path.Combine(_env.WebRootPath, Constants.Media.PetsFolderPath, petId.ToString(), Constants.Media.PetsPicturesFolderPath);
-        if (!Directory.Exists(uploadFolder))
-            Directory.CreateDirectory(uploadFolder);
-
         var extension = Path.GetExtension(file.FileName);
-        var uniqueFileName = $"{Guid.NewGuid()}{extension}";
+        var key = $"{Constants.Media.PetFolderPrefix}-{petId}/{Guid.NewGuid()}{extension}";
 
-        var filePath = Path.Combine(uploadFolder, uniqueFileName);
+        var transferUtility = new TransferUtility(_s3Client);
+        using var stream = file.OpenReadStream();
 
-        using var stream = new FileStream(filePath, FileMode.Create);
-        await file.CopyToAsync(stream);
+        var uploadRequest = new TransferUtilityUploadRequest
+        {
+            InputStream = stream,
+            BucketName = _storageConfig.Bucket,
+            Key = key,
+            ContentType = file.ContentType,
+            CannedACL = S3CannedACL.PublicRead,
+        };
 
-        var url = $"{_request.Scheme}://{_request.Host}/{Constants.Media.PetsFolderPath}/{petId}/{Constants.Media.PetsPicturesFolderPath}/{uniqueFileName}";
-        return (url, filePath);
+        await transferUtility.UploadAsync(uploadRequest);
+
+        var url = $"{_storageConfig.Url}/{_storageConfig.Bucket}/{Uri.EscapeDataString(key)}";
+        var result = new UploadFileResponse
+        {
+            Url = url,
+            Path = key,
+            Source = FileSource.Cloud,
+        };
+
+        return result;
     }
 
-    public void DeletePicture(Picture picture)
+    public async Task DeletePictureAsync(Picture picture)
     {
         if (picture.Source is FileSource.Internal)
         {
             if (File.Exists(picture.Path))
                 File.Delete(picture.Path);
+        }
+        else if (picture.Source is FileSource.Cloud)
+        {
+            await _s3Client.DeleteObjectAsync(new DeleteObjectRequest
+            {
+                BucketName = _storageConfig.Bucket,
+                Key = picture.Path,
+            });
         }
     }
 }

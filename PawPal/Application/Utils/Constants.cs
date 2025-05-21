@@ -23,8 +23,7 @@ public static class Constants
 
     public static class Media
     {
-        public const string PetsFolderPath = "pets";
-        public const string PetsPicturesFolderPath = "pictures";
+        public const string PetFolderPrefix = "pet";
     }
 
     public static class Patterns

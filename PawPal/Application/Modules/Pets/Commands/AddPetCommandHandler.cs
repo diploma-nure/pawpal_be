@@ -35,12 +35,12 @@ public class AddPetCommandHandler(IApplicationDbContext dbContext, IMediaService
             var pictures = new List<Picture>();
             foreach (var picture in command.Pictures)
             {
-                var (url, path) = await _mediaService.UploadPetPictureAsync(pet.Id, picture);
+                var response = await _mediaService.UploadPetPictureAsync(pet.Id, picture);
                 pictures.Add(new()
                 {
-                    Source = FileSource.Internal,
-                    Url = url,
-                    Path = path,
+                    Source = response.Source,
+                    Url = response.Url,
+                    Path = response.Path,
                     Order = order++,
                 });
             }
