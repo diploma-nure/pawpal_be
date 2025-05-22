@@ -23,13 +23,12 @@ jobs:
         run: dotnet restore PawPal/PawPal.sln
 
       - name: Run tests
-        run: dotnet test PawPal/PawPal.sln \
-              --configuration Release \
-              --no-build \
-              --verbosity normal
+        run: dotnet test PawPal/PawPal.sln --configuration Release --no-build --verbosity normal
 
   build-and-publish:
     name: Build and publish Docker image
+    needs: test
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
