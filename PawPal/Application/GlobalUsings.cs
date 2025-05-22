@@ -8,6 +8,7 @@ global using Application.Modules.Meetings.Dtos;
 global using Application.Modules.Meetings.Mappings;
 global using Application.Modules.PetFeatures.Dtos;
 global using Application.Modules.PetFeatures.Mappings;
+global using Application.Modules.Pets.Commands;
 global using Application.Modules.Pets.Dtos;
 global using Application.Modules.Pets.Enums;
 global using Application.Modules.Pets.Mappings;

@@ -20,7 +20,7 @@ public class SubmitApplicationCommandHandler(IApplicationDbContext dbContext)
             .AsNoTracking()
             .FirstOrDefaultAsync(l => l.UserId == _dbContext.User!.Id && l.PetId == pet.Id, cancellationToken);
 
-        if (application is not null)
+        if (application is not null && application.Status is not ApplicationStatus.Rejected)
             return application.Id;
 
         application = new PetApplication

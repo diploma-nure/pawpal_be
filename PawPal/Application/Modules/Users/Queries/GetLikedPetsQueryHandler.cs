@@ -11,7 +11,8 @@ public class GetLikedPetsQueryHandler(IApplicationDbContext dbContext)
             .AsNoTracking()
             .Where(l => l.UserId == _dbContext.User!.Id)
             .OrderByDescending(l => l.CreatedAt)
-            .Select(l => l.Pet);
+            .Select(l => l.Pet)
+            .Where(p => p.DeletedAt == null);
 
         var result = await pets
             .Select(p => p.ToPetInListDto())

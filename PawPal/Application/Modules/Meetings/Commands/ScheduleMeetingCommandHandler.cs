@@ -46,7 +46,7 @@ public class ScheduleMeetingCommandHandler(IApplicationDbContext dbContext)
             throw new ConflictException("Unable to schedule a meeting for this time");
 
         var availableAdmin = await _dbContext.Users
-            .Where(a => a.Role == Role.Admin && a.Meetings.All(m => !((start >= m.Start && start < m.End) || (end <= m.End && end > m.Start))))
+            .Where(a => a.Role == Role.Admin && a.Meetings.All(m => m.Status == MeetingStatus.Cancelled || (!((start >= m.Start && start < m.End) || (end <= m.End && end > m.Start)))))
             .OrderBy(a => a.Meetings.Where(m => m.Start > currentDate).Count())
             .FirstOrDefaultAsync(cancellationToken)
             ?? throw new ConflictException("No available admins for the selected time slot");

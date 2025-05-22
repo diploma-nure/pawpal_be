@@ -14,6 +14,9 @@ public class ChangeMeetingStatusCommandHandler(IApplicationDbContext dbContext)
             .FirstOrDefaultAsync(p => p.Id == command.MeetingId, cancellationToken)
             ?? throw new NotFoundException($"Meeting with id {command.MeetingId} not found");
 
+        if (meeting.Status is MeetingStatus.Cancelled or MeetingStatus.Completed)
+            throw new ConflictException("Meeting is already cancelled or completed");
+
         meeting.Status = command.Status!.Value;
         await _dbContext.SaveChangesAsync(cancellationToken);
 
