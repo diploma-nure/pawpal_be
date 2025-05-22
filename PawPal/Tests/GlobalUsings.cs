@@ -1,0 +1,13 @@
+﻿global using Application.Interfaces;
+global using Application.Modules.Pets.Dtos;
+global using Application.Modules.Pets.Queries;
+global using Bogus;
+global using Domain.Entities;
+global using Domain.Enums;
+global using Domain.Exceptions;
+global using FluentAssertions;
+global using Infrastructure.Data;
+global using Microsoft.EntityFrameworkCore;
+global using Moq;
+global using Tests.Common;
+global using Tests.Modules.Pets.Fixtures;
