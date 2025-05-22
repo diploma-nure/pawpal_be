@@ -56,7 +56,7 @@ public class GetMeetingSlotsQueryHandler(IApplicationDbContext dbContext)
                     continue;
                 else if (date.Date == currentDate.Date && time.ToTimeSpan() < currentDate.TimeOfDay)
                     isAvailable = false;
-                else if (admins.Any(a => a.Meetings.All(m => !DateTimeHelper.AreTimesConflicting(startDate, endDate, m.Start, m.End))))
+                else if (admins.Any(a => a.Meetings.All(m => m.Status is MeetingStatus.Cancelled || !DateTimeHelper.AreTimesConflicting(startDate, endDate, m.Start, m.End))))
                     isAvailable = true;
 
                 daySlot.TimeSlots.Add(new TimeSlotDto() { Time = time, IsAvailable = isAvailable });

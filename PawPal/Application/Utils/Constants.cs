@@ -31,4 +31,9 @@ public static class Constants
         public const string PhoneNumber = @"^\+?[1-9]\d{1,14}$";
         public const string Email = @"^(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*)@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z]{2,})$";
     }
+
+    public static class TimePeriods
+    {
+        public static readonly TimeSpan MeetingStatusCheck = TimeSpan.FromMinutes(10);
+    }
 }
