@@ -23,7 +23,7 @@ jobs:
         run: dotnet restore PawPal/PawPal.sln
 
       - name: Run tests
-        run: dotnet test PawPal/PawPal.sln --configuration Release --no-build --verbosity normal
+        run: dotnet test PawPal/Tests/Tests.csproj --configuration Release --no-build --verbosity normal
 
   build-and-publish:
     name: Build and publish Docker image
