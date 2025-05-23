@@ -1,8 +1,6 @@
-name: CI/CD Pipeline
+name: CD Pipeline
 
 on:
-  pull_request:
-    branches: [ main ]
   push:
     branches: [ main ]
 
@@ -28,7 +26,6 @@ jobs:
   build-and-publish:
     name: Build and publish Docker image
     needs: test
-    if: github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
