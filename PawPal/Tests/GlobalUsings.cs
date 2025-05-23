@@ -1,4 +1,5 @@
 ﻿global using Application.Interfaces;
+global using Application.Modules.Pets.Commands;
 global using Application.Modules.Pets.Dtos;
 global using Application.Modules.Pets.Queries;
 global using Bogus;

@@ -17,4 +17,17 @@ public static class PetEquals
 
         entity.Pictures.Select(p => p.Url).Should().BeEquivalentTo(dto.Pictures?.Select(p => p.Url));
     }
+
+    public static void EqualTo(this Pet entity, AddPetCommand command)
+    {
+        entity.Name.Should().Be(command.Name);
+        entity.Species.Should().Be(command.Species);
+        entity.Gender.Should().Be(command.Gender);
+        entity.Size.Should().Be(command.Size);
+        entity.Age.Should().Be(command.Age);
+        entity.HasSpecialNeeds.Should().Be(command.HasSpecialNeeds!.Value);
+        entity.Description.Should().Be(command.Description);
+
+        entity.Features.Select(f => f.Id).Should().BeEquivalentTo(command.FeaturesIds);
+    }
 }

@@ -2,6 +2,25 @@
 
 public static class PetFixtures
 {
+    public static AddPetCommand FakeAddPetCommand()
+    {
+        var faker = new Faker<AddPetCommand>()
+            .StrictMode(true)
+            .RuleFor(x => x.Name, f => f.Name.FirstName())
+            .RuleFor(x => x.Species, f => f.PickRandom<PetSpecies>())
+            .RuleFor(x => x.Gender, f => f.PickRandom<PetGender>())
+            .RuleFor(x => x.Size, f => f.PickRandom<PetSize>())
+            .RuleFor(x => x.Age, f => f.PickRandom<PetAge>())
+            .RuleFor(x => x.HasSpecialNeeds, f => f.Random.Bool())
+            .RuleFor(x => x.FeaturesIds, f => [])
+            .RuleFor(x => x.Description, f => f.Lorem.Sentence())
+            .RuleFor(x => x.Pictures, f => []);
+
+        faker.Validate();
+
+        return faker.Generate();
+    }
+
     public static Pet FakePetEntity(int id)
     {
         var faker = new Faker<Pet>()

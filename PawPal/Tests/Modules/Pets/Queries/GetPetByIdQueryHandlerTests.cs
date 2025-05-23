@@ -1,6 +1,6 @@
 ﻿namespace Tests.Modules.Pets.Queries;
 
-public class GetFollowupByIdQueryHanlderTests : HandlerTestsBase
+public class GetPetByIdQueryHanlderTests : HandlerTestsBase
 {
     private const int ExistingPetId = 1;
 
