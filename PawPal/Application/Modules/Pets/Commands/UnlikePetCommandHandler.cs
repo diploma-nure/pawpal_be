@@ -14,7 +14,6 @@ public class UnlikePetCommandHandler(IApplicationDbContext dbContext)
             ?? throw new NotFoundException($"Pet with id {command.PetId} not found");
 
         var like = await _dbContext.PetLikes
-            .AsNoTracking()
             .FirstOrDefaultAsync(l => l.UserId == _dbContext.User!.Id && l.PetId == pet.Id, cancellationToken);
 
         if (like is null)

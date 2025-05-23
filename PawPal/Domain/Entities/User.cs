@@ -26,7 +26,7 @@ public class User : IAuditable, ISoftDeletable
 
     public Picture? ProfilePicture { get; set; }
 
-    public Survey Survey { get; set; }
+    public Survey? Survey { get; set; }
 
     public List<Comment> Comments { get; set; }
 

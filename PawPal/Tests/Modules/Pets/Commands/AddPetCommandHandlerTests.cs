@@ -2,22 +2,25 @@
 
 public class AddPetCommandHandlerTests : HandlerTestsBase
 {
+    private AddPetCommandHandler _handler;
+
     [SetUp]
-    public void Setup()
+    public void SetUp()
     {
-        var user = new User() { Role = Role.Admin };
-        _dbContext.User = user;
+        _handler = new AddPetCommandHandler(_dbContext, _mediaServiceMock.Object);
     }
 
     [Test]
-    public async Task WhenInput_IsValid_ShouldBeOk()
+    public async Task WhenInput_IsValid_AndUserIsAdmin_ShouldBeOk()
     {
         //Arrange
+        var user = UserFixtures.FakeUserEntity(1, Role.Admin);
+        _dbContext.User = user;
+
         var command = PetFixtures.FakeAddPetCommand();
-        var handler = new AddPetCommandHandler(_dbContext, _mediaServiceMock.Object);
 
         //Act
-        var id = await handler.Handle(command, CancellationToken.None);
+        var id = await _handler.Handle(command, CancellationToken.None);
         var model = _dbContext.Pets
             .AsNoTracking()
             .Include(p => p.Features)
@@ -26,5 +29,21 @@ public class AddPetCommandHandlerTests : HandlerTestsBase
         //Assert
         model.Should().NotBeNull();
         model!.EqualTo(command);
+    }
+
+    [Test]
+    public async Task WhenInput_IsValid_AndUserIsNotAdmin_ShouldBeError()
+    {
+        //Arrange
+        var user = UserFixtures.FakeUserEntity(1, Role.User);
+        _dbContext.User = user;
+
+        var command = PetFixtures.FakeAddPetCommand();
+
+        //Act
+        var act = async () => await _handler.Handle(command, CancellationToken.None);
+
+        //Assert
+        await act.Should().ThrowAsync<ForbiddenException>().WithMessage("Action forbidden");
     }
 }
