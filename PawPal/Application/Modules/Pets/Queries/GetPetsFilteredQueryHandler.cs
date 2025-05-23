@@ -57,7 +57,7 @@ public class GetPetsFilteredQueryHandler(IApplicationDbContext dbContext)
                 PetSortingOptions.Age => pets.OrderBy(p => p.Age),
                 PetSortingOptions.Recent => pets.OrderBy(p => p.CreatedAt),
                 PetSortingOptions.Size => pets.OrderBy(p => p.Size),
-                _ => pets
+                _ => pets.OrderBy(p => p.Name)
             };
         }
         else if (sortingDto.Direction is SortingDirection.Desc)
@@ -68,9 +68,11 @@ public class GetPetsFilteredQueryHandler(IApplicationDbContext dbContext)
                 PetSortingOptions.Age => pets.OrderByDescending(p => p.Age),
                 PetSortingOptions.Recent => pets.OrderByDescending(p => p.CreatedAt),
                 PetSortingOptions.Size => pets.OrderByDescending(p => p.Size),
-                _ => pets
+                _ => pets.OrderByDescending(p => p.Name)
             };
         }
+        else
+            pets = pets.OrderBy(p => p.Name);
 
         return pets;
     }

@@ -19,8 +19,9 @@ public class MeetingService(RoomServiceClient roomService, IOptions<LiveKitConfi
         return room.Name;
     }
 
-    public async Task DeleteRoomAsync(string roomName)
+    public async Task DeleteRoomAsync(int meetingId)
     {
+        var roomName = $"{RoomNamePrefix}-{meetingId}";
         var req = new DeleteRoomRequest { Room = roomName };
         await _roomService.DeleteRoom(req);
     }

@@ -1,6 +1,10 @@
 ﻿global using Application.Interfaces;
+global using Application.Modules.Pets.Commands;
 global using Application.Modules.Pets.Dtos;
+global using Application.Modules.Pets.Enums;
 global using Application.Modules.Pets.Queries;
+global using Application.Utils.Dtos;
+global using Application.Utils.Enums;
 global using Bogus;
 global using Domain.Entities;
 global using Domain.Enums;
@@ -11,3 +15,4 @@ global using Microsoft.EntityFrameworkCore;
 global using Moq;
 global using Tests.Common;
 global using Tests.Modules.Pets.Fixtures;
+global using Tests.Modules.Users.Fixtures;
