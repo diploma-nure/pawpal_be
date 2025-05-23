@@ -38,12 +38,13 @@ public class JoinMeetingCommandHandler(IApplicationDbContext dbContext, IMeeting
             meeting = application.Meeting;
         }
 
-        var currentDate = DateTime.UtcNow;
-        if (currentDate < meeting.Start.AddMinutes(5))
-            throw new ConflictException("Meeting cannot be joined yet");
+        // todo: temporarily disabled, remove!!!
+        //var currentDate = DateTime.UtcNow;
+        //if (currentDate < meeting.Start.AddMinutes(5))
+        //    throw new ConflictException("Meeting cannot be joined yet");
 
-        if (currentDate > meeting.End)
-            throw new ConflictException("Meeting has already ended and cannot be joined");
+        //if (currentDate > meeting.End)
+        //    throw new ConflictException("Meeting has already ended and cannot be joined");
 
         if (meeting.AdminId != _dbContext.User!.Id && application.UserId != _dbContext.User.Id)
             throw new ForbiddenException();
