@@ -7,18 +7,19 @@ public class GetMeetingsFilteredQueryHandler(IApplicationDbContext dbContext)
 
     public async Task<PaginatedListDto<MeetingInListDto>> Handle(GetMeetingsFilteredQuery query, CancellationToken cancellationToken)
     {
+        if (_dbContext.User?.Role is not Role.Admin)
+            throw new ForbiddenException();
+
         var meetings = _dbContext.Meetings
+            .AsNoTracking()
             .Include(m => m.Application)
                 .ThenInclude(a => a.User)
             .Include(m => m.Application)
                 .ThenInclude(a => a.Pet)
                     .ThenInclude(p => p.Pictures)
-            .AsNoTracking()
+            .Where(m => m.AdminId == _dbContext.User.Id)
             .OrderByDescending(a => a.Start)
             .AsQueryable();
-
-        if (_dbContext.User?.Role is not Role.Admin)
-            throw new ForbiddenException();
 
         meetings = ApplyFiltering(meetings, query.Statuses);
 
