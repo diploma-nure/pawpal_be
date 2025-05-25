@@ -11,6 +11,8 @@ public abstract class HandlerTestsBase
 
     protected Mock<IMeetingService> _meetingServiceMock;
 
+    protected Mock<IMediator> _mediatorMock;
+
     [SetUp]
     public virtual void OneTimeSetUp()
     {
@@ -24,5 +26,6 @@ public abstract class HandlerTestsBase
         _emailServiceMock = new Mock<IEmailService>();
         _mediaServiceMock = new Mock<IMediaService>();
         _meetingServiceMock = new Mock<IMeetingService>();
+        _mediatorMock = new Mock<IMediator>();
     }
 }

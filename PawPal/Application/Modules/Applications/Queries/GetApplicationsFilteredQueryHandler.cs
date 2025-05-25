@@ -12,7 +12,7 @@ public class GetApplicationsFilteredQueryHandler(IApplicationDbContext dbContext
             .Include(a => a.Pet)
                 .ThenInclude(p => p.Pictures)
             .AsNoTracking()
-            .OrderByDescending(a => a.CreatedAt)
+            .OrderByDescending(a => a.UpdatedAt)
             .AsQueryable();
 
         if (_dbContext.User?.Role is Role.User)

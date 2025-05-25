@@ -31,12 +31,12 @@ public class LikePetCommandHandlerTests : HandlerTestsBase
 
         //Act
         await _likeHandler.Handle(command, CancellationToken.None);
-        var model = _dbContext.PetLikes
+        var entity = _dbContext.PetLikes
             .AsNoTracking()
             .FirstOrDefault(x => x.UserId == userId && x.PetId == petId);
 
         //Assert
-        model.Should().NotBeNull();
+        entity.Should().NotBeNull();
     }
 
     [Test]
@@ -58,12 +58,12 @@ public class LikePetCommandHandlerTests : HandlerTestsBase
         //Act
         await _likeHandler.Handle(command, CancellationToken.None);
         await _likeHandler.Handle(command, CancellationToken.None);
-        var model = _dbContext.PetLikes
+        var entity = _dbContext.PetLikes
             .AsNoTracking()
             .FirstOrDefault(x => x.UserId == userId && x.PetId == petId);
 
         //Assert
-        model.Should().NotBeNull();
+        entity.Should().NotBeNull();
     }
 
     [Test]
@@ -86,12 +86,12 @@ public class LikePetCommandHandlerTests : HandlerTestsBase
         //Act
         await _unlikeHandler.Handle(unlikeCommand, CancellationToken.None);
         await _likeHandler.Handle(likeCommand, CancellationToken.None);
-        var model = _dbContext.PetLikes
+        var entity = _dbContext.PetLikes
             .AsNoTracking()
             .FirstOrDefault(x => x.UserId == userId && x.PetId == petId);
 
         //Assert
-        model.Should().NotBeNull();
+        entity.Should().NotBeNull();
     }
 
     [Test]
