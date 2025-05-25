@@ -26,14 +26,14 @@ public class UpdatePetCommandHandlerTests : HandlerTestsBase
 
         //Act
         var id = await _handler.Handle(command, CancellationToken.None);
-        var model = _dbContext.Pets
+        var entity = _dbContext.Pets
             .AsNoTracking()
             .Include(p => p.Features)
             .FirstOrDefault(x => x.Id == id);
 
         //Assert
-        model.Should().NotBeNull();
-        model!.EqualTo(command);
+        entity.Should().NotBeNull();
+        entity!.EqualTo(command);
     }
 
     [Test]
