@@ -10,6 +10,7 @@ public static class ApplicationMappings
             CreatedAt = application.CreatedAt,
             User = application.User.ToUserShortDto(),
             Pet = application.Pet.ToPetShortDto(),
+            MeetingId = application.Meeting?.Id,
         };
 
     public static ApplicationShortDto ToApplicationShortDto(this PetApplication application)

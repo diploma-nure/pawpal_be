@@ -11,4 +11,6 @@ public class ApplicationInListDto
     public UserShortDto User { get; set; }
 
     public PetShortDto Pet { get; set; }
+
+    public int? MeetingId { get; set; }
 }

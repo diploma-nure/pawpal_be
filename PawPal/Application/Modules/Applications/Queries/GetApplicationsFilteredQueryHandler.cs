@@ -8,6 +8,7 @@ public class GetApplicationsFilteredQueryHandler(IApplicationDbContext dbContext
     public async Task<PaginatedListDto<ApplicationInListDto>> Handle(GetApplicationsFilteredQuery query, CancellationToken cancellationToken)
     {
         var applications = _dbContext.Applications
+            .Include(a => a.Meeting)
             .Include(a => a.User)
             .Include(a => a.Pet)
                 .ThenInclude(p => p.Pictures)
