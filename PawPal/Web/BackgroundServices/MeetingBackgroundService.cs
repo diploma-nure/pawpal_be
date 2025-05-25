@@ -1,4 +1,4 @@
-﻿namespace Application.Services;
+﻿namespace Web.BackgroundServices;
 
 public class MeetingBackgroundService(IServiceScopeFactory scopeFactory, ILogger<MeetingBackgroundService> logger) : BackgroundService
 {

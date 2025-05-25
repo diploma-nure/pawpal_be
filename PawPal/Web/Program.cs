@@ -25,4 +25,6 @@ app.UseMiddleware<AuthMiddleware>();
 
 app.MapGet("/api/health", () => "Healthy!");
 
+app.MapHub<MeetingHub>("/hubs/meetings");
+
 app.Run();

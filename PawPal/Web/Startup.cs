@@ -5,6 +5,7 @@ public static class Startup
     public static IServiceCollection ConfigureControllers(this IServiceCollection services)
     {
         services.AddControllers();
+        services.AddSignalR();
         services.AddRouting(options => options.LowercaseUrls = true);
 
         return services;
@@ -72,6 +73,8 @@ public static class Startup
     {
         services.AddInfrastructureServices(configuration);
         services.AddApplicationServices(configuration);
+
+        services.AddHostedService<MeetingBackgroundService>();
 
         return services;
     }
