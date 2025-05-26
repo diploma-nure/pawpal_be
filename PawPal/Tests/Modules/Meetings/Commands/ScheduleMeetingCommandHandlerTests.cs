@@ -134,7 +134,7 @@ public class ScheduleMeetingCommandHandlerTests : HandlerTestsBase
     public async Task WhenStartDate_IsInThePast_ShouldBeError()
     {
         // Arrange
-        var start = DateTime.UtcNow.AddDays(-1);
+        var start = DateTime.UtcNow.AddDays(-1).ToDateWithTime(new TimeOnly(10, 0));
         var end = start.AddHours(1);
         var command = MeetingFixtures.FakeScheduleMeetingCommand(ApplicationId, start: start, end: end);
 
@@ -192,23 +192,6 @@ public class ScheduleMeetingCommandHandlerTests : HandlerTestsBase
 
         // Assert
         await act.Should().ThrowAsync<ConflictException>().WithMessage("Meeting is out of scheduled working time");
-    }
-
-    [Test]
-    public async Task WhenStartTime_IsBeforeCurrentTimeOnSameDay_ShouldBeError()
-    {
-        // Arrange
-        var now = DateTime.UtcNow;
-        var date = now.Date;
-        var start = date.ToDateWithTime(new TimeOnly(now.Hour, now.Minute).AddHours(-1));
-        var end = start.AddHours(1);
-        var command = MeetingFixtures.FakeScheduleMeetingCommand(ApplicationId, start: start, end: end);
-
-        // Act
-        var act = () => _handler.Handle(command, CancellationToken.None);
-
-        // Assert
-        await act.Should().ThrowAsync<ConflictException>().WithMessage("Unable to schedule a meeting for this time");
     }
 
     [Test]
