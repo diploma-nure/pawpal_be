@@ -60,5 +60,6 @@ public static class PetMappings
             Id = pet.Id,
             Name = pet.Name,
             PictureUrl = pet.Pictures?.OrderBy(p => p.Order).FirstOrDefault()?.Url,
+            Species = pet.Species,
         };
 }

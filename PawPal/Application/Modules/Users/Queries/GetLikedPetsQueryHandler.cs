@@ -9,10 +9,12 @@ public class GetLikedPetsQueryHandler(IApplicationDbContext dbContext)
     {
         var pets = _dbContext.PetLikes
             .AsNoTracking()
+            .Include(l => l.Pet)
+                .ThenInclude(p => p.Pictures)
             .Where(l => l.UserId == _dbContext.User!.Id)
             .OrderByDescending(l => l.CreatedAt)
             .Select(l => l.Pet)
-            .Where(p => p.DeletedAt == null);
+            .FilterSoftDeleted();
 
         var result = await pets
             .Select(p => p.ToPetInListDto())
