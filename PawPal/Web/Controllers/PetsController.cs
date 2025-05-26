@@ -16,7 +16,7 @@ public class PetsController(IMediator mediator) : ControllerBase
         => new(await _mediator.Send(query, cancellationToken));
 
     [HttpGet("recommended")]
-    [Auth([Constants.Roles.User])]
+    [Auth]
     public async Task<Result<PaginatedListDto<PetInListDto>>> GetRecommendedPetsAsync([FromQuery] GetRecommendedPetsQuery query, CancellationToken cancellationToken)
         => new(await _mediator.Send(query, cancellationToken));
 

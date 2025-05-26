@@ -16,6 +16,10 @@ public class GoogleLoginCommandHandler(IApplicationDbContext dbContext, ITokenSe
         string? token = null;
         if (user != null)
         {
+            user.ProfilePicture ??= new() { Source = FileSource.Google, Url = payload.Picture };
+            user.FullName ??= payload.Name;
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
             token = await _tokenService.GenerateTokenAsync(user.Id);
             return new LoginResponseDto() { Token = token, IsNewUser = false };
         }
