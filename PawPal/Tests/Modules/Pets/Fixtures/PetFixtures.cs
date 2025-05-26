@@ -9,6 +9,7 @@ public static class PetFixtures
         PetGender? gender = null,
         PetSize? size = null,
         PetAge? age = null,
+        bool? hasSpecialNeeds = null,
         DateTime? createdAt = null)
     {
         var faker = new Faker<Pet>()
@@ -19,7 +20,7 @@ public static class PetFixtures
             .RuleFor(x => x.Gender, f => gender ?? f.PickRandom<PetGender>())
             .RuleFor(x => x.Size, f => size ?? f.PickRandom<PetSize>())
             .RuleFor(x => x.Age, f => age ?? f.PickRandom<PetAge>())
-            .RuleFor(x => x.HasSpecialNeeds, f => f.Random.Bool())
+            .RuleFor(x => x.HasSpecialNeeds, f => hasSpecialNeeds ?? f.Random.Bool())
             .RuleFor(x => x.Features, f => [])
             .RuleFor(x => x.Description, f => f.Lorem.Sentence())
             .RuleFor(x => x.PetLikes, f => [])
@@ -79,6 +80,7 @@ public static class PetFixtures
         List<PetGender>? genders = null,
         List<PetSize>? sizes = null,
         List<PetAge>? ages = null,
+        bool? hasSpecialNeeds = null,
         int page = 1,
         int pageSize = 10,
         PetSortingOptions sortBy = PetSortingOptions.Name,
@@ -90,6 +92,7 @@ public static class PetFixtures
             .RuleFor(x => x.Genders, f => genders)
             .RuleFor(x => x.Sizes, f => sizes)
             .RuleFor(x => x.Ages, f => ages)
+            .RuleFor(x => x.HasSpecialNeeds, f => hasSpecialNeeds)
             .RuleFor(x => x.Pagination, f => new PaginationDto() { Page = page, PageSize = pageSize })
             .RuleFor(x => x.Sorting, f => new SortingDto<PetSortingOptions>() { Type = sortBy, Direction = sortDirection });
 

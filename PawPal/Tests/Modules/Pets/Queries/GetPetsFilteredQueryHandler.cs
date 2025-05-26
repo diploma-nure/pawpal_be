@@ -103,6 +103,27 @@ public class GetPetsFilteredQueryHandlerTests : HandlerTestsBase
     }
 
     [Test]
+    [TestCase(true)]
+    [TestCase(false)]
+    public async Task WhenFilterBySpecialNeeds_ShouldReturnOnlyThatPets(bool hasSpecialNeeds)
+    {
+        // Arrange
+        var pet1 = PetFixtures.FakePetEntity(1, hasSpecialNeeds: true);
+        var pet2 = PetFixtures.FakePetEntity(2, hasSpecialNeeds: false);
+        _dbContext.Pets.AddRange(pet1, pet2);
+        await _dbContext.SaveChangesAsync(CancellationToken.None);
+
+        var query = PetFixtures.FakeGetPetsFilteredQuery(hasSpecialNeeds: hasSpecialNeeds);
+
+        // Act
+        var result = await _handler.Handle(query, CancellationToken.None);
+
+        // Assert
+        result.Count.Should().Be(1);
+        result.Items.Single().HasSpecialNeeds.Should().Be(hasSpecialNeeds);
+    }
+
+    [Test]
     [TestCase(new PetAge[] { PetAge.UnderOneYear })]
     [TestCase(new PetAge[] { PetAge.OneToThreeYears })]
     [TestCase(new PetAge[] { PetAge.ThreeToSevenYears })]
