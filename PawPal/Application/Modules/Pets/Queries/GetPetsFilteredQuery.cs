@@ -10,6 +10,8 @@ public class GetPetsFilteredQuery : IRequest<PaginatedListDto<PetInListDto>>
 
     public List<PetGender>? Genders { get; set; }
 
+    public bool? HasSpecialNeeds { get; set; }
+
     public PaginationDto Pagination { get; set; }
 
     public SortingDto<PetSortingOptions> Sorting { get; set; }

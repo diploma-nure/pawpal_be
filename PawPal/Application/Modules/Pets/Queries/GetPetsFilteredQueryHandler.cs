@@ -17,6 +17,7 @@ public class GetPetsFilteredQueryHandler(IApplicationDbContext dbContext)
         pets = ApplyFiltering(pets, query.Sizes);
         pets = ApplyFiltering(pets, query.Ages);
         pets = ApplyFiltering(pets, query.Genders);
+        pets = ApplyFiltering(pets, query.HasSpecialNeeds);
 
         var count = pets.Count();
         pets = ApplySorting(pets, query.Sorting!);
@@ -46,6 +47,9 @@ public class GetPetsFilteredQueryHandler(IApplicationDbContext dbContext)
 
     private static IQueryable<Pet> ApplyFiltering(IQueryable<Pet> pets, List<PetGender>? genders)
         => genders is null ? pets : pets.Where(p => genders.Contains(p.Gender));
+
+    private static IQueryable<Pet> ApplyFiltering(IQueryable<Pet> pets, bool? hasSpecialNeeds)
+        => hasSpecialNeeds.HasValue ? pets.Where(p => p.HasSpecialNeeds == hasSpecialNeeds.Value) : pets;
 
     private static IQueryable<Pet> ApplySorting(IQueryable<Pet> pets, SortingDto<PetSortingOptions> sortingDto)
     {

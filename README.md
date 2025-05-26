@@ -23,13 +23,13 @@
 	- Google Auth API
 	- Swagger
 	- MediatR
-	- FluentValidation
+	- Fluent Validation
 	- JWT
-	- LiveKit API
+	- SignalR
 	- AWSSDK.S3
 - testing:
 	- NUnit
 	- Mock
 	- Entity Framework Core InMemory
 	- Bogus
-	- FluentAssertions
+	- Fluent Assertions

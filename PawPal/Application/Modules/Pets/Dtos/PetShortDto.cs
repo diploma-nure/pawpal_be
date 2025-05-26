@@ -7,4 +7,6 @@ public class PetShortDto
     public string Name { get; set; }
 
     public string? PictureUrl { get; set; }
+
+    public PetSpecies Species { get; set; }
 }
