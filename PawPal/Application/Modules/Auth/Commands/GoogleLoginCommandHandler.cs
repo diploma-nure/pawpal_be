@@ -17,7 +17,7 @@ public class GoogleLoginCommandHandler(IApplicationDbContext dbContext, ITokenSe
         if (user != null)
         {
             token = await _tokenService.GenerateTokenAsync(user.Id);
-            return new LoginResponseDto() { Token = token, IsNewUser = false }; 
+            return new LoginResponseDto() { Token = token, IsNewUser = false };
         }
 
         user = new User
@@ -29,6 +29,7 @@ public class GoogleLoginCommandHandler(IApplicationDbContext dbContext, ITokenSe
                 Source = FileSource.Google,
                 Url = payload.Picture,
             },
+            FullName = payload.Name,
         };
 
         _dbContext.Users.Add(user);
