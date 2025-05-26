@@ -40,7 +40,7 @@ public class ChangeMeetingStatusCommandHandlerTests : HandlerTestsBase
     {
         //Arrange
         var currentDate = DateTime.UtcNow;
-        var meeting = MeetingFixtures.FakeMeetingEntity(1, AdminId, ApplicationId, start: currentDate, end: currentDate.AddHours(1));
+        var meeting = MeetingFixtures.FakeMeetingEntity(1, AdminId, ApplicationId, start: currentDate, end: currentDate.AddHours(1), status: MeetingStatus.Scheduled);
         _dbContext.Meetings.Add(meeting);
         await _dbContext.SaveChangesAsync(CancellationToken.None);
 

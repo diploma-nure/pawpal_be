@@ -32,7 +32,7 @@ public class ScheduleMeetingCommandHandlerTests : HandlerTestsBase
     }
 
     [Test]
-    public async Task WhenSlot_IsAvailable_ShouldScheduleMeeting()
+    public async Task WhenSlot_IsAvailable_ShouldBeOk()
     {
         // Arrange
         var date = NextWeekday(DateTime.UtcNow.Date.AddDays(1));
@@ -54,7 +54,7 @@ public class ScheduleMeetingCommandHandlerTests : HandlerTestsBase
     }
 
     [Test]
-    public void WhenUserRole_IsNotUser_ShouldThrowForbiddenException()
+    public void WhenUserRole_IsNotUser_ShouldBeError()
     {
         // Arrange
         var admin = _dbContext.Users.FirstOrDefault(x => x.Id == AdminId);
@@ -73,7 +73,7 @@ public class ScheduleMeetingCommandHandlerTests : HandlerTestsBase
     }
 
     [Test]
-    public async Task WhenApplication_DoesNotExist_ShouldThrowNotFoundException()
+    public async Task WhenApplication_DoesNotExist_ShouldBeError()
     {
         // Arrange
         var applicationId = 100;
@@ -90,7 +90,7 @@ public class ScheduleMeetingCommandHandlerTests : HandlerTestsBase
     }
 
     [Test]
-    public async Task WhenUser_IsNotOwnerOfApplication_ShouldThrowForbiddenException()
+    public async Task WhenUser_IsNotOwnerOfApplication_ShouldBeError()
     {
         // Arrange
         var otherUser = UserFixtures.FakeUserEntity(99, Role.User);
@@ -111,7 +111,7 @@ public class ScheduleMeetingCommandHandlerTests : HandlerTestsBase
     }
 
     [Test]
-    public async Task WhenApplicationStatus_IsNotMeetingApprovedOrScheduled_ShouldThrowConflictException()
+    public async Task WhenApplicationStatus_IsNotMeetingApprovedOrScheduled_ShouldBeError()
     {
         // Arrange
         var app = _dbContext.Applications.First(x => x.Id == ApplicationId);
@@ -131,7 +131,7 @@ public class ScheduleMeetingCommandHandlerTests : HandlerTestsBase
     }
 
     [Test]
-    public async Task WhenStartDate_IsInThePast_ShouldThrowConflictException()
+    public async Task WhenStartDate_IsInThePast_ShouldBeError()
     {
         // Arrange
         var start = DateTime.UtcNow.AddDays(-1);
@@ -146,7 +146,7 @@ public class ScheduleMeetingCommandHandlerTests : HandlerTestsBase
     }
 
     [Test]
-    public async Task WhenStartDate_IsOnWeekend_ShouldThrowConflictException()
+    public async Task WhenStartDate_IsOnWeekend_ShouldBeError()
     {
         // Arrange
         var today = DateTime.UtcNow.Date;
@@ -163,7 +163,7 @@ public class ScheduleMeetingCommandHandlerTests : HandlerTestsBase
     }
 
     [Test]
-    public async Task WhenStartTime_IsBeforeWorkdayStart_ShouldThrowConflictException()
+    public async Task WhenStartTime_IsBeforeWorkdayStart_ShouldBeError()
     {
         // Arrange
         var date = NextWeekday(DateTime.UtcNow.Date.AddDays(1));
@@ -179,7 +179,7 @@ public class ScheduleMeetingCommandHandlerTests : HandlerTestsBase
     }
 
     [Test]
-    public async Task WhenEndTime_IsAfterWorkdayEnd_ShouldThrowConflictException()
+    public async Task WhenEndTime_IsAfterWorkdayEnd_ShouldBeError()
     {
         // Arrange
         var date = NextWeekday(DateTime.UtcNow.Date.AddDays(1));
@@ -195,7 +195,7 @@ public class ScheduleMeetingCommandHandlerTests : HandlerTestsBase
     }
 
     [Test]
-    public async Task WhenStartTime_IsBeforeCurrentTimeOnSameDay_ShouldThrowConflictException()
+    public async Task WhenStartTime_IsBeforeCurrentTimeOnSameDay_ShouldBeError()
     {
         // Arrange
         var now = DateTime.UtcNow;
@@ -212,7 +212,7 @@ public class ScheduleMeetingCommandHandlerTests : HandlerTestsBase
     }
 
     [Test]
-    public async Task WhenSlot_IsNotAvailable_ShouldThrowConflictException()
+    public async Task WhenSlot_IsNotAvailable_ShouldBeError()
     {
         // Arrange
         var date = NextWeekday(DateTime.UtcNow.Date.AddDays(1));
@@ -236,7 +236,7 @@ public class ScheduleMeetingCommandHandlerTests : HandlerTestsBase
     }
 
     [Test]
-    public async Task WhenApplication_HasExistingFutureMeeting_ShouldAllowRescheduling()
+    public async Task WhenApplication_HasExistingFutureMeeting_ShouldBeOk()
     {
         // Arrange
         var date = NextWeekday(DateTime.UtcNow.Date.AddDays(1));
@@ -262,7 +262,7 @@ public class ScheduleMeetingCommandHandlerTests : HandlerTestsBase
     }
 
     [Test]
-    public async Task WhenExistingMeeting_HasEnded_ShouldThrowConflictException()
+    public async Task WhenExistingMeeting_HasEnded_ShouldBeError()
     {
         // Arrange
         var pastDate = DateTime.UtcNow.Date.AddDays(-1);
