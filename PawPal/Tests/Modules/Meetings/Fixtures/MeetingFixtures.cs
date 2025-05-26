@@ -59,4 +59,19 @@ public static class MeetingFixtures
 
         return faker.Generate();
     }
+
+    public static GetMeetingsFilteredQuery FakeGetMeetingsFilteredQuery(
+        List<MeetingStatus>? statuses = null,
+        int page = 1,
+        int pageSize = 10)
+    {
+        var faker = new Faker<GetMeetingsFilteredQuery>()
+            .StrictMode(true)
+            .RuleFor(x => x.Statuses, f => statuses)
+            .RuleFor(x => x.Pagination, f => new PaginationDto() { Page = page, PageSize = pageSize });
+
+        faker.Validate();
+
+        return faker.Generate();
+    }
 }
