@@ -31,7 +31,7 @@ public class ScheduleMeetingCommandHandler(IApplicationDbContext dbContext)
         }
 
         var workDayStartTime = new TimeOnly(7, 0);
-        var workDayEndTime = new TimeOnly(16, 0);
+        var workDayEndTime = new TimeOnly(17, 0);
 
         var start = command.Start!.Value.ToNormalizedTime();
         var end = command.End!.Value.ToNormalizedTime();

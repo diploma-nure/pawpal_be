@@ -29,4 +29,34 @@ public static class MeetingFixtures
 
         return faker.Generate();
     }
+
+    public static ScheduleMeetingCommand FakeScheduleMeetingCommand(
+        int applicationId,
+        DateTime? start = null,
+        DateTime? end = null)
+    {
+        var faker = new Faker<ScheduleMeetingCommand>()
+            .StrictMode(true)
+            .RuleFor(x => x.ApplicationId, f => applicationId)
+            .RuleFor(x => x.Start, f => start ?? f.Date.FutureOffset().UtcDateTime)
+            .RuleFor(x => x.End, (f, m) => end ?? (start ?? DateTime.UtcNow).AddHours(1));
+
+        faker.Validate();
+
+        return faker.Generate();
+    }
+
+    public static ChangeMeetingStatusCommand FakeChangeMeetingStatusCommand(
+        int meetingId,
+        MeetingStatus status)
+    {
+        var faker = new Faker<ChangeMeetingStatusCommand>()
+            .StrictMode(true)
+            .RuleFor(x => x.MeetingId, f => meetingId)
+            .RuleFor(x => x.Status, status);
+
+        faker.Validate();
+
+        return faker.Generate();
+    }
 }

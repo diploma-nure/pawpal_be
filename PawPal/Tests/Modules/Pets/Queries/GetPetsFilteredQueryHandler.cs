@@ -120,7 +120,7 @@ public class GetPetsFilteredQueryHandlerTests : HandlerTestsBase
 
         // Assert
         result.Count.Should().Be(1);
-        result.Items.Single().HasSpecialNeeds.Should().Be(hasSpecialNeeds);
+        result.Items.Should().ContainSingle(p => p.HasSpecialNeeds == hasSpecialNeeds);
     }
 
     [Test]

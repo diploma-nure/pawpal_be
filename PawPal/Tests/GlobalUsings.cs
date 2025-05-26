@@ -1,12 +1,14 @@
 ﻿global using Application.Interfaces;
 global using Application.Modules.Applications.Commands;
 global using Application.Modules.Applications.Queries;
+global using Application.Modules.Meetings.Commands;
 global using Application.Modules.Pets.Commands;
 global using Application.Modules.Pets.Dtos;
 global using Application.Modules.Pets.Enums;
 global using Application.Modules.Pets.Queries;
 global using Application.Utils.Dtos;
 global using Application.Utils.Enums;
+global using Application.Utils.Extensions;
 global using Bogus;
 global using Domain.Entities;
 global using Domain.Enums;
