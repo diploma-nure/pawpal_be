@@ -11,7 +11,9 @@ public class GoogleLoginCommandHandler(IApplicationDbContext dbContext, ITokenSe
     {
         var payload = await GoogleJsonWebSignature.ValidateAsync(command.Token);
         var normalizedEmail = payload.Email.ToNormalizedEmail();
-        var user = _dbContext.Users.FirstOrDefault(u => u.Email == normalizedEmail);
+        var user = _dbContext.Users
+            .Include(u => u.ProfilePicture)
+            .FirstOrDefault(u => u.Email == normalizedEmail);
 
         string? token = null;
         if (user != null)
