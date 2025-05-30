@@ -9,7 +9,7 @@ public class UpdateCommentCommandHandler(IApplicationDbContext dbContext)
     {
         var comment = await _dbContext.Comments
             .FirstOrDefaultAsync(p => p.Id == command.Id, cancellationToken)
-            ?? throw new NotFoundException($"Comment with id {command.Id} not found");
+            ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundComment, $"Comment with id {command.Id} not found");
 
         if (comment.UserId != _dbContext.User!.Id)
             throw new ForbiddenException();

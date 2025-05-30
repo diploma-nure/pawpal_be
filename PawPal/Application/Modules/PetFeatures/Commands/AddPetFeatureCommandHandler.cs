@@ -11,7 +11,7 @@ public class AddPetFeatureCommandHandler(IApplicationDbContext dbContext)
             throw new ForbiddenException();
 
         if (_dbContext.PetFeatures.Any(f => f.Feature == command.Feature))
-            throw new ConflictException($"Pet Feature {command.Feature} already exists");
+            throw new ConflictException(Constants.ResponseCodes.NotFoundPetFeature, $"Pet Feature {command.Feature} already exists");
 
 
         var petFeature = new PetFeature

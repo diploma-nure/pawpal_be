@@ -9,7 +9,7 @@ public class MediaService(IAmazonS3 s3client, IOptions<StorageConfig> storageCon
     public async Task<UploadFileResponse> UploadPetPictureAsync(int petId, IFormFile file)
     {
         if (file.Length == 0)
-            throw new ConflictException($"File {file.FileName} is empty");
+            throw new ConflictException(Constants.ResponseCodes.ConflictEmptyFileData, $"File {file.FileName} is empty");
 
         var extension = Path.GetExtension(file.FileName);
         var key = $"{Constants.Media.PetFolderPrefix}-{petId}/{Guid.NewGuid()}{extension}";

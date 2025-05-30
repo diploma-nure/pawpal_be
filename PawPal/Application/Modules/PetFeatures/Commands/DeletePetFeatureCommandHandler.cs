@@ -12,7 +12,7 @@ public class DeletePetFeatureCommandHandler(IApplicationDbContext dbContext)
 
         var petFeature = await _dbContext.PetFeatures
             .FirstOrDefaultAsync(p => p.Id == command.PetFeatureId, cancellationToken)
-            ?? throw new NotFoundException($"Pet Feature with id {command.PetFeatureId} not found");
+            ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundPetFeature, $"Pet Feature with id {command.PetFeatureId} not found");
 
         petFeature.SoftDelete();
         await _dbContext.SaveChangesAsync(cancellationToken);

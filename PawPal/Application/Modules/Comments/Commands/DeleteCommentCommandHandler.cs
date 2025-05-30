@@ -9,7 +9,7 @@ public class DeleteCommentCommandHandler(IApplicationDbContext dbContext)
     {
         var comment = await _dbContext.Comments
             .FirstOrDefaultAsync(p => p.Id == command.CommentId, cancellationToken)
-            ?? throw new NotFoundException($"Comment with id {command.CommentId} not found");
+            ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundComment, $"Comment with id {command.CommentId} not found");
 
         if (comment.UserId != _dbContext.User!.Id && _dbContext.User.Role is not Role.Admin)
             throw new ForbiddenException();

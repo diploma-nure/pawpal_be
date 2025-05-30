@@ -11,7 +11,7 @@ public class UpdateUserInfoCommandHandler(IApplicationDbContext dbContext)
 
         var user = await _dbContext.Users
             .FirstOrDefaultAsync(u => u.Id == _dbContext.User!.Id, cancellationToken)
-            ?? throw new NotFoundException($"User with id {userId} not found");
+            ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundUser, $"User with id {userId} not found");
 
         user.FullName = command.FullName;
         user.PhoneNumber = command.PhoneNumber;

@@ -19,7 +19,7 @@ public class GetUserInfoQueryHandler(IApplicationDbContext dbContext)
             .Include(u => u.ProfilePicture)
             .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Id == query.UserId, cancellationToken)
-            ?? throw new NotFoundException($"User with id {query.UserId} not found");
+            ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundUser, $"User with id {query.UserId} not found");
 
         if (_dbContext.User!.Role is not Role.Admin && user.Id != _dbContext.User!.Id)
             throw new ForbiddenException();
