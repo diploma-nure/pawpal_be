@@ -107,7 +107,7 @@ public class ScheduleMeetingCommandHandlerTests : HandlerTestsBase
         var act = () => _handler.Handle(command, CancellationToken.None);
 
         // Assert
-        await act.Should().ThrowAsync<ForbiddenException>().WithMessage("You are not allowed to schedule a meeting for this application");
+        await act.Should().ThrowAsync<ForbiddenException>().WithMessage("Action forbidden");
     }
 
     [Test]
