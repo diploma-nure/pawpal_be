@@ -11,7 +11,7 @@ public class RegisterAdminCommandHandler(IApplicationDbContext dbContext)
             throw new ForbiddenException();
 
         if (_dbContext.Users.Any(u => u.Email == command.Email))
-            throw new ConflictException($"User with email {command.Email} already exists");
+            throw new ConflictException(Constants.ResponseCodes.ConflictUserExists, $"User with email {command.Email} already exists");
 
         var passwordHash = command.Password.ToSha256Hash();
         var user = new User

@@ -14,10 +14,10 @@ public class ChangeApplicationStatusCommandHandler(IApplicationDbContext dbConte
             .Include(a => a.Pet)
             .Include(a => a.Meeting)
             .FirstOrDefaultAsync(p => p.Id == command.ApplicationId, cancellationToken)
-            ?? throw new NotFoundException($"Application with id {command.ApplicationId} not found");
+            ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundApplication, $"Application with id {command.ApplicationId} not found");
 
         if (application.Status is ApplicationStatus.Approved or ApplicationStatus.Rejected)
-            throw new ConflictException("Application is already approved or rejected");
+            throw new ConflictException(Constants.ResponseCodes.ConflictApplicationAlreadyApproved, "Application is already approved or rejected");
 
         var newStatus = command.Status!.Value;
         application.Status = newStatus;

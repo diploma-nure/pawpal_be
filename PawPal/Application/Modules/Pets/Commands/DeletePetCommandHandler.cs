@@ -16,7 +16,7 @@ public class DeletePetCommandHandler(IApplicationDbContext dbContext)
             .Include(p => p.Applications)
                 .ThenInclude(a => a.Meeting)
             .FirstOrDefaultAsync(p => p.Id == command.PetId, cancellationToken)
-            ?? throw new NotFoundException($"Pet with id {command.PetId} not found");
+            ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundPet, $"Pet with id {command.PetId} not found");
 
         pet.SoftDelete();
         pet.Pictures.ForEach(p => p.SoftDelete());

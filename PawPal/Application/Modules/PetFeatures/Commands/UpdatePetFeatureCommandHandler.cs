@@ -12,7 +12,7 @@ public class UpdatePetFeatureCommandHandler(IApplicationDbContext dbContext)
 
         var petFeature = await _dbContext.PetFeatures
             .FirstOrDefaultAsync(p => p.Id == command.Id, cancellationToken)
-            ?? throw new NotFoundException($"Pet Feature with id {command.Id} not found");
+            ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundPetFeature, $"Pet Feature with id {command.Id} not found");
 
         if (!string.IsNullOrEmpty(command.Feature))
         {

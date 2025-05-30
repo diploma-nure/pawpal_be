@@ -17,7 +17,7 @@ public class LoginCommandHandler(IApplicationDbContext dbContext, ITokenService 
         if (user != null)
         {
             if (user.PasswordHash != passwordHash)
-                throw new UnauthorizedException("Login attempt failed");
+                throw new UnauthorizedException(Constants.ResponseCodes.AuthLoginFailed, "Login attempt failed");
 
             token = await _tokenService.GenerateTokenAsync(user.Id);
             return new LoginResponseDto() { Token = token, IsNewUser = false };

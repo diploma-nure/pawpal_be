@@ -13,7 +13,7 @@ public class GetPetByIdQueryHandler(IApplicationDbContext dbContext)
             .AsNoTracking()
             .FilterSoftDeleted()
             .FirstOrDefaultAsync(p => p.Id == query.PetId, cancellationToken)
-            ?? throw new NotFoundException($"Pet with id {query.PetId} not found");
+            ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundPet, $"Pet with id {query.PetId} not found");
 
         var result = pet.ToPetDto();
 

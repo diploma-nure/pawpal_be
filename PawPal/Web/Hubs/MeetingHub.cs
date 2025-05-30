@@ -1,11 +1,9 @@
 ﻿namespace Web.Hubs;
 
 [Auth]
-public class MeetingHub(IApplicationDbContext context, ILogger<MeetingHub> logger, ITokenService tokenService) : Hub
+public class MeetingHub(IApplicationDbContext context, ITokenService tokenService) : Hub
 {
     private readonly IApplicationDbContext _dbContext = context;
-
-    private readonly ILogger<MeetingHub> _logger = logger;
 
     private readonly ITokenService _tokenService = tokenService;
 
@@ -46,13 +44,10 @@ public class MeetingHub(IApplicationDbContext context, ILogger<MeetingHub> logge
             await Groups.AddToGroupAsync(Context.ConnectionId, meetingGroup);
 
             await Clients.OthersInGroup(meetingGroup).SendAsync("UserJoined", user.Id, GetUserDisplayName(user));
-
-            _logger.LogInformation("User {userId} joined meeting {meetingId}", user.Id, meeting.Id);
         }
-        catch (Exception ex)
+        catch
         {
-            _logger.LogError(ex, "Error joining meeting for user {userId}", _dbContext.User?.Id ?? 0);
-            await Clients.Caller.SendAsync("Error", "Failed to join meeting");
+            await Clients.Caller.SendAsync("Error", Constants.ResponseCodes.ConflictHubJoinFailed, "Failed to join meeting");
         }
     }
 
@@ -66,12 +61,10 @@ public class MeetingHub(IApplicationDbContext context, ILogger<MeetingHub> logge
                 return;
 
             await Clients.Group(GetMeetingGroupName(meetingId)).SendAsync("ReceiveWebRTCOffer", userId, offer);
-
-            _logger.LogInformation("WebRTC offer sent in meeting {meetingId}", meetingId);
         }
-        catch (Exception ex)
+        catch
         {
-            _logger.LogError(ex, "Error sending WebRTC offer in meeting {meetingId}", meetingId);
+            await Clients.Caller.SendAsync("Error", Constants.ResponseCodes.ConflictHubSendingFailed, "Sending failed");
         }
     }
 
@@ -85,12 +78,10 @@ public class MeetingHub(IApplicationDbContext context, ILogger<MeetingHub> logge
                 return;
 
             await Clients.Group(GetMeetingGroupName(meetingId)).SendAsync("ReceiveWebRTCAnswer", userId, answer);
-
-            _logger.LogInformation("WebRTC answer sent in meeting {meetingId}", meetingId);
         }
-        catch (Exception ex)
+        catch
         {
-            _logger.LogError(ex, "Error sending WebRTC answer in meeting {meetingId}", meetingId);
+            await Clients.Caller.SendAsync("Error", Constants.ResponseCodes.ConflictHubSendingFailed, "Sending failed");
         }
     }
 
@@ -104,12 +95,10 @@ public class MeetingHub(IApplicationDbContext context, ILogger<MeetingHub> logge
                 return;
 
             await Clients.OthersInGroup(GetMeetingGroupName(meetingId)).SendAsync("ReceiveICECandidate", userId, candidate);
-
-            _logger.LogInformation("ICE candidate sent in meeting {meetingId}", meetingId);
         }
-        catch (Exception ex)
+        catch
         {
-            _logger.LogError(ex, "Error sending ICE candidate in meeting {meetingId}", meetingId);
+            await Clients.Caller.SendAsync("Error", Constants.ResponseCodes.ConflictHubSendingFailed, "Sending failed");
         }
     }
 

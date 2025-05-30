@@ -16,7 +16,7 @@ public class GetRecommendedPetsQueryHandler(IApplicationDbContext dbContext)
                 .ThenInclude(s => s.DesiredFeatures)
             .Include(s => s.ResidenceDetails)
             .FirstOrDefaultAsync(s => s.UserId == userId, cancellationToken)
-            ?? throw new NotFoundException($"Survey not completed for user with id {userId} not found");
+            ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundSurvey, $"Survey not completed for user with id {userId} not found");
 
         var petRecommendationsQuery = _dbContext.SqlQueryRaw<PetRecommendationDto>(
                 "SELECT * FROM get_pet_recommendations(@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12, @p13)",

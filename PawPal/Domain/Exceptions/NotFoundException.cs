@@ -1,5 +1,5 @@
 ﻿namespace Domain.Exceptions;
 
-public class NotFoundException(string message) : Exception(message)
+public class NotFoundException(string code, string message) : BaseException(code, message)
 {
 }

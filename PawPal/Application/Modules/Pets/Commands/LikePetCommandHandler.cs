@@ -11,7 +11,7 @@ public class LikePetCommandHandler(IApplicationDbContext dbContext)
             .AsNoTracking()
             .FilterSoftDeleted()
             .FirstOrDefaultAsync(p => p.Id == command.PetId, cancellationToken)
-            ?? throw new NotFoundException($"Pet with id {command.PetId} not found");
+            ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundPet, $"Pet with id {command.PetId} not found");
 
         var like = await _dbContext.PetLikes
             .AsNoTracking()

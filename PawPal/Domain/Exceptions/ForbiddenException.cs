@@ -1,12 +1,5 @@
 ﻿namespace Domain.Exceptions;
 
-public class ForbiddenException : Exception
+public class ForbiddenException() : BaseException("A002", "Action forbidden")
 {
-    public ForbiddenException() : base("Action forbidden")
-    {
-    }
-
-    public ForbiddenException(string message) : base(message)
-    {
-    }
 }

@@ -8,13 +8,13 @@ public class ValidatePasswordRecoveryCodeCommandHandler(IApplicationDbContext db
     public async Task<int> Handle(ValidatePasswordRecoveryCodeCommand command, CancellationToken cancellationToken)
     {
         var user = _dbContext.Users.FirstOrDefault(u => u.Id == command.UserId)
-            ?? throw new NotFoundException($"User with id {command.UserId} not found");
+            ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundUser, $"User with id {command.UserId} not found");
 
         if (user.PasswordRecoveryCode is null)
-            throw new ConflictException($"User with id {command.UserId} does not have assigned recovery code");
+            throw new ConflictException(Constants.ResponseCodes.ConflictNoRecoveryCodeForUser, $"User with id {command.UserId} does not have assigned recovery code");
 
         if (!user.PasswordRecoveryCode.Equals(command.RecoveryCode))
-            throw new ConflictException("Invalid recovery code");
+            throw new ConflictException(Constants.ResponseCodes.ConflictInvalidRecoveryCode, "Invalid recovery code");
 
         return user.Id;
     }

@@ -19,7 +19,7 @@ public class JoinMeetingCommandHandler(IApplicationDbContext dbContext, IMeeting
                 .AsNoTracking()
                 .Include(m => m.Application)
                 .FirstOrDefaultAsync(m => m.Id == meetingId, cancellationToken)
-                ?? throw new NotFoundException($"Meeting with id {meetingId} not found");
+                ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundMeeting, $"Meeting with id {meetingId} not found");
 
             application = meeting.Application;
         }
@@ -30,10 +30,10 @@ public class JoinMeetingCommandHandler(IApplicationDbContext dbContext, IMeeting
                 .AsNoTracking()
                 .Include(a => a.Meeting)
                 .FirstOrDefaultAsync(a => a.Id == applicationId, cancellationToken)
-                ?? throw new NotFoundException($"Application with id {applicationId} not found");
+                ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundApplication, $"Application with id {applicationId} not found");
 
             if (application.Meeting is null)
-                throw new NotFoundException($"Meeting was not scheduled for application with id {applicationId}");
+                throw new NotFoundException(Constants.ResponseCodes.NotFoundMeeting, $"Meeting was not scheduled for application with id {applicationId}");
 
             meeting = application.Meeting;
         }

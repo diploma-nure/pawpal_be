@@ -17,7 +17,7 @@ public class UpdatePetCommandHandler(IApplicationDbContext dbContext, IMediaServ
             .Include(p => p.Pictures)
             .FilterSoftDeleted()
             .FirstOrDefaultAsync(p => p.Id == command.Id, cancellationToken)
-            ?? throw new NotFoundException($"Pet with id {command.Id} not found");
+            ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundPet, $"Pet with id {command.Id} not found");
 
         if (!string.IsNullOrEmpty(command.Name))
             pet.Name = command.Name;
@@ -76,7 +76,7 @@ public class UpdatePetCommandHandler(IApplicationDbContext dbContext, IMediaServ
                     });
                 }
                 else
-                    throw new ConflictException("Each picture entry must have either Id or File");
+                    throw new ConflictException(Constants.ResponseCodes.ConflictEmptyFileData, "Each picture entry must have either Id or File");
             }
 
             pet.Pictures = updatedPictures;

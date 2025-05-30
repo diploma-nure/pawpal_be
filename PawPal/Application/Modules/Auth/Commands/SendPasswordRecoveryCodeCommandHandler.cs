@@ -12,7 +12,7 @@ public class SendPasswordRecoveryCodeCommandHandler(IApplicationDbContext dbCont
         var normalizedEmail = command.Email.ToNormalizedEmail();
 
         var user = _dbContext.Users.FirstOrDefault(u => u.Email == normalizedEmail)
-            ?? throw new NotFoundException($"User with email {normalizedEmail} not found");
+            ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundUser, $"User with email {normalizedEmail} not found");
 
         var recoveryCode = SecurityHelper.GenerateRecoveryCode();
         user.PasswordRecoveryCode = recoveryCode;

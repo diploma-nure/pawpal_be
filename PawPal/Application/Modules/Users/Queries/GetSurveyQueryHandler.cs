@@ -20,7 +20,7 @@ public class GetSurveyQueryHandler(IApplicationDbContext dbContext)
                     .ThenInclude(p => p.DesiredFeatures)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(s => s.UserId == userId, cancellationToken)
-                ?? throw new NotFoundException($"User with id {query.SurveyId} does not have completed survey");
+                ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundSurvey, $"User with id {query.SurveyId} does not have completed survey");
 
             result = survey.ToSurveyDto();
             return result;
@@ -35,7 +35,7 @@ public class GetSurveyQueryHandler(IApplicationDbContext dbContext)
                     .ThenInclude(p => p.DesiredFeatures)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(s => s.Id == query.SurveyId, cancellationToken)
-                ?? throw new NotFoundException($"Survey with id {query.SurveyId} not found");
+                ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundSurvey, $"Survey with id {query.SurveyId} not found");
         }
         else
         {
@@ -46,7 +46,7 @@ public class GetSurveyQueryHandler(IApplicationDbContext dbContext)
                     .ThenInclude(p => p.DesiredFeatures)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(s => s.UserId == query.UserId, cancellationToken)
-                ?? throw new NotFoundException($"Survey for user with id {query.UserId} not found");
+                ?? throw new NotFoundException(Constants.ResponseCodes.NotFoundSurvey, $"Survey for user with id {query.UserId} not found");
         }
 
         if (_dbContext.User!.Role is not Role.Admin && survey.UserId != _dbContext.User!.Id)
